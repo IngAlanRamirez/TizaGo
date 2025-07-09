@@ -45,7 +45,52 @@
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * Background Styles from Astro Project
+ * -----------------------------------------------------
+ * Estilos adicionales para replicar el fondo del proyecto Astro
+ */
+
 /* Tipografía base para Tiza Go */
+html,
 body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
   font-family: "Poppins", "Montserrat", "Nunito", sans-serif;
+}
+
+body {
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Asegurar que no haya scroll horizontal */
+* {
+  box-sizing: border-box;
+}
+
+/* Critical styles for above-the-fold content - From Astro */
+ion-content {
+  --background: linear-gradient(135deg, #dc2626 0%, #1e293b 50%, #0f172a 100%);
+}
+
+/* Glassmorphism classes adicionales si son necesarias */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
