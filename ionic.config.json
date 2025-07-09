@@ -1,0 +1,7 @@
+{
+  "name": "TizaGo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
