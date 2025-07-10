@@ -1,0 +1,555 @@
+/**
+ * TIZA GO THEME - Ionic SCSS Theme
+ * ===============================
+ * Tema personalizado para Ionic basado en tailwind.config.js
+ * Colores modernos, efectos glassmorphism y animaciones suaves
+ */
+
+// ==========================================
+// 🎨 VARIABLES DE COLOR PRINCIPALES
+// ==========================================
+// Basado en los colores del tailwind.config.js actual
+
+:root {
+  // 🔴 Colores Primarios (Rojos del tailwind)
+  --tiza-primary-50: #fef2f2;
+  --tiza-primary-100: #fee2e2;
+  --tiza-primary-200: #fecaca;
+  --tiza-primary-300: #fca5a5;
+  --tiza-primary-400: #f87171;
+  --tiza-primary-500: #ef4444;
+  --tiza-primary-600: #dc2626;
+  --tiza-primary-700: #b91c1c;
+  --tiza-primary-800: #991b1b;
+  --tiza-primary-900: #7f1d1d;
+
+  // 🟡 Colores Secundarios (Amarillos/Naranjas del tailwind)
+  --tiza-secondary-50: #fefbeb;
+  --tiza-secondary-100: #fef3c7;
+  --tiza-secondary-200: #fde68a;
+  --tiza-secondary-300: #fcd34d;
+  --tiza-secondary-400: #fbbf24;
+  --tiza-secondary-500: #f59e0b;
+  --tiza-secondary-600: #d97706;
+  --tiza-secondary-700: #b45309;
+  --tiza-secondary-800: #92400e;
+  --tiza-secondary-900: #78350f;
+
+  // 🔵 Colores de Acento (Grises/Azules del tailwind)
+  --tiza-accent-50: #f8fafc;
+  --tiza-accent-100: #f1f5f9;
+  --tiza-accent-200: #e2e8f0;
+  --tiza-accent-300: #cbd5e1;
+  --tiza-accent-400: #94a3b8;
+  --tiza-accent-500: #64748b;
+  --tiza-accent-600: #475569;
+  --tiza-accent-700: #334155;
+  --tiza-accent-800: #1e293b;
+  --tiza-accent-900: #0f172a;
+
+  // 🎯 Colores de Estado
+  --tiza-success: #22c55e;
+  --tiza-warning: #f59e0b;
+  --tiza-danger: #ef4444;
+  --tiza-info: #3b82f6;
+
+  // 🌈 Gradientes
+  --tiza-gradient-primary: linear-gradient(
+    135deg,
+    var(--tiza-primary-500),
+    var(--tiza-primary-600)
+  );
+  --tiza-gradient-secondary: linear-gradient(
+    135deg,
+    var(--tiza-secondary-500),
+    var(--tiza-secondary-600)
+  );
+  --tiza-gradient-accent: linear-gradient(
+    135deg,
+    var(--tiza-accent-500),
+    var(--tiza-accent-600)
+  );
+  --tiza-gradient-sunset: linear-gradient(
+    135deg,
+    var(--tiza-primary-500),
+    var(--tiza-secondary-500)
+  );
+  --tiza-gradient-ocean: linear-gradient(
+    135deg,
+    var(--tiza-accent-800),
+    var(--tiza-accent-900)
+  );
+
+  // 🧪 Glassmorphism
+  --tiza-glass-bg: rgba(255, 255, 255, 0.1);
+  --tiza-glass-border: rgba(255, 255, 255, 0.2);
+  --tiza-glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  --tiza-glass-blur: blur(10px);
+
+  // 📏 Espaciado y Tamaños
+  --tiza-border-radius: 12px;
+  --tiza-border-radius-lg: 20px;
+  --tiza-border-radius-xl: 28px;
+  --tiza-touch-target: 44px;
+  --tiza-animation-speed: 0.3s;
+}
+
+// ==========================================
+// 🎨 VARIABLES IONIC PERSONALIZADAS
+// ==========================================
+
+:root {
+  // Sobrescribir colores principales de Ionic
+  --ion-color-primary: var(--tiza-primary-600);
+  --ion-color-primary-rgb: 220, 38, 38;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: var(--tiza-primary-700);
+  --ion-color-primary-tint: var(--tiza-primary-500);
+
+  --ion-color-secondary: var(--tiza-secondary-600);
+  --ion-color-secondary-rgb: 217, 119, 6;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: var(--tiza-secondary-700);
+  --ion-color-secondary-tint: var(--tiza-secondary-500);
+
+  --ion-color-tertiary: var(--tiza-accent-600);
+  --ion-color-tertiary-rgb: 71, 85, 105;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: var(--tiza-accent-700);
+  --ion-color-tertiary-tint: var(--tiza-accent-500);
+
+  // Colores de estado
+  --ion-color-success: var(--tiza-success);
+  --ion-color-warning: var(--tiza-warning);
+  --ion-color-danger: var(--tiza-danger);
+
+  // Fondo general
+  --ion-background-color: var(--tiza-accent-900);
+  --ion-text-color: #ffffff;
+}
+
+// ==========================================
+// 🧪 EFECTOS GLASSMORPHISM
+// ==========================================
+
+.tiza-glass {
+  background: var(--tiza-glass-bg);
+  backdrop-filter: var(--tiza-glass-blur);
+  -webkit-backdrop-filter: var(--tiza-glass-blur);
+  border: 1px solid var(--tiza-glass-border);
+  box-shadow: var(--tiza-glass-shadow);
+  border-radius: var(--tiza-border-radius);
+}
+
+.tiza-glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border-radius: var(--tiza-border-radius-lg);
+}
+
+.tiza-glass-strong {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border-radius: var(--tiza-border-radius-xl);
+}
+
+// ==========================================
+// 🎬 ANIMACIONES TIZA GO
+// ==========================================
+
+@keyframes tizaFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tizaFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tizaFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes tizaGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(220, 38, 38, 0.8);
+  }
+}
+
+@keyframes tizaGradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes tizaPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+// Clases de animación
+.tiza-fade-in {
+  animation: tizaFadeIn 0.6s ease-out;
+}
+
+.tiza-fade-in-up {
+  animation: tizaFadeInUp 0.8s ease-out;
+}
+
+.tiza-float {
+  animation: tizaFloat 3s ease-in-out infinite;
+}
+
+.tiza-glow {
+  animation: tizaGlow 2s ease-in-out infinite alternate;
+}
+
+.tiza-pulse {
+  animation: tizaPulse 2s ease-in-out infinite;
+}
+
+// ==========================================
+// 🎨 COMPONENTES IONIC PERSONALIZADOS
+// ==========================================
+
+// 🔘 Botones Tiza Go
+ion-button.tiza-button-primary {
+  --background: var(--tiza-gradient-primary);
+  --border-radius: var(--tiza-border-radius);
+  --box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+  --color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all var(--tiza-animation-speed) ease;
+  min-height: var(--tiza-touch-target);
+
+  &:hover {
+    --box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0px) scale(0.98);
+  }
+}
+
+ion-button.tiza-button-secondary {
+  --background: var(--tiza-gradient-secondary);
+  --border-radius: var(--tiza-border-radius);
+  --box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+  --color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all var(--tiza-animation-speed) ease;
+  min-height: var(--tiza-touch-target);
+
+  &:hover {
+    --box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+ion-button.tiza-button-glass {
+  --background: var(--tiza-glass-bg);
+  --color: white;
+  --border-radius: var(--tiza-border-radius);
+  backdrop-filter: var(--tiza-glass-blur);
+  -webkit-backdrop-filter: var(--tiza-glass-blur);
+  border: 1px solid var(--tiza-glass-border);
+  min-height: var(--tiza-touch-target);
+}
+
+// 📱 Cards con Glassmorphism
+ion-card.tiza-card {
+  background: var(--tiza-glass-bg);
+  backdrop-filter: var(--tiza-glass-blur);
+  -webkit-backdrop-filter: var(--tiza-glass-blur);
+  border: 1px solid var(--tiza-glass-border);
+  box-shadow: var(--tiza-glass-shadow);
+  border-radius: var(--tiza-border-radius-lg);
+  overflow: hidden;
+  transition: all var(--tiza-animation-speed) ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// 🧭 Header personalizado
+ion-header.tiza-header {
+  &::after {
+    background: var(--tiza-gradient-primary);
+  }
+
+  ion-toolbar {
+    --background: var(--tiza-glass-bg);
+    backdrop-filter: var(--tiza-glass-blur);
+    -webkit-backdrop-filter: var(--tiza-glass-blur);
+    --color: white;
+
+    ion-title {
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+// 📄 Content con fondo personalizado
+ion-content.tiza-content {
+  --background: var(--tiza-gradient-ocean);
+
+  &.tiza-content-gradient {
+    --background: linear-gradient(
+      135deg,
+      var(--tiza-primary-600) 0%,
+      var(--tiza-accent-800) 50%,
+      var(--tiza-accent-900) 100%
+    );
+  }
+}
+
+// 📝 Inputs con glassmorphism
+ion-input.tiza-input,
+ion-textarea.tiza-input {
+  --background: var(--tiza-glass-bg);
+  --color: white;
+  --placeholder-color: rgba(255, 255, 255, 0.6);
+  --border-radius: var(--tiza-border-radius);
+  backdrop-filter: var(--tiza-glass-blur);
+  -webkit-backdrop-filter: var(--tiza-glass-blur);
+  border: 1px solid var(--tiza-glass-border);
+  min-height: var(--tiza-touch-target);
+}
+
+// 🎚️ Segments personalizados
+ion-segment.tiza-segment {
+  --background: var(--tiza-glass-bg);
+  backdrop-filter: var(--tiza-glass-blur);
+  -webkit-backdrop-filter: var(--tiza-glass-blur);
+  border: 1px solid var(--tiza-glass-border);
+  border-radius: var(--tiza-border-radius);
+
+  ion-segment-button {
+    --color: rgba(255, 255, 255, 0.7);
+    --color-checked: white;
+    --background-checked: var(--tiza-gradient-primary);
+    --border-radius: var(--tiza-border-radius);
+    min-height: var(--tiza-touch-target);
+
+    &.segment-button-checked {
+      font-weight: 600;
+    }
+  }
+}
+
+// 🔘 FAB con efectos
+ion-fab-button.tiza-fab {
+  --background: var(--tiza-gradient-primary);
+  --color: white;
+  --box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+  transition: all var(--tiza-animation-speed) ease;
+
+  &:hover {
+    --box-shadow: 0 12px 32px rgba(220, 38, 38, 0.5);
+    transform: translateY(-2px) scale(1.05);
+  }
+}
+
+// ==========================================
+// 🎯 UTILIDADES TIZA GO
+// ==========================================
+
+// Gradientes de texto
+.tiza-text-gradient-primary {
+  background: var(--tiza-gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.tiza-text-gradient-secondary {
+  background: var(--tiza-gradient-secondary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.tiza-text-gradient-animated {
+  background: linear-gradient(
+    45deg,
+    var(--tiza-primary-600),
+    var(--tiza-secondary-600),
+    var(--tiza-accent-600),
+    var(--tiza-primary-600)
+  );
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: tizaGradientShift 4s ease-in-out infinite;
+}
+
+// Efectos hover
+.tiza-hover-lift {
+  transition: all var(--tiza-animation-speed) ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.tiza-hover-glow {
+  transition: all var(--tiza-animation-speed) ease;
+
+  &:hover {
+    box-shadow: 0 0 30px rgba(220, 38, 38, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+// Touch feedback
+.tiza-touch-feedback {
+  transition: transform 0.1s ease;
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+// Safe areas
+.tiza-safe-area {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+// Centrado
+.tiza-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ==========================================
+// 🌈 BACKGROUNDS ESPECIALES
+// ==========================================
+
+.tiza-bg-gradient-primary {
+  background: var(--tiza-gradient-primary);
+}
+
+.tiza-bg-gradient-secondary {
+  background: var(--tiza-gradient-secondary);
+}
+
+.tiza-bg-gradient-sunset {
+  background: var(--tiza-gradient-sunset);
+}
+
+.tiza-bg-gradient-ocean {
+  background: var(--tiza-gradient-ocean);
+}
+
+.tiza-bg-animated {
+  background: linear-gradient(
+    45deg,
+    var(--tiza-primary-600),
+    var(--tiza-secondary-600),
+    var(--tiza-accent-700),
+    var(--tiza-primary-600)
+  );
+  background-size: 400% 400%;
+  animation: tizaGradientShift 8s ease-in-out infinite;
+}
+
+// ==========================================
+// 📱 RESPONSIVE DESIGN
+// ==========================================
+
+// Móvil small
+@media (max-width: 575px) {
+  :root {
+    --tiza-border-radius: 8px;
+    --tiza-border-radius-lg: 12px;
+    --tiza-border-radius-xl: 16px;
+  }
+}
+
+// Tablet
+@media (min-width: 768px) {
+  :root {
+    --tiza-border-radius: 16px;
+    --tiza-border-radius-lg: 24px;
+    --tiza-border-radius-xl: 32px;
+  }
+}
+
+// Desktop
+@media (min-width: 1024px) {
+  .tiza-hover-lift,
+  .tiza-hover-glow {
+    &:hover {
+      transition: all var(--tiza-animation-speed) ease;
+    }
+  }
+}
+
+// ==========================================
+// 🔧 MODO OSCURO AUTOMÁTICO
+// ==========================================
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tiza-glass-bg: rgba(0, 0, 0, 0.2);
+    --tiza-glass-border: rgba(255, 255, 255, 0.1);
+    --ion-background-color: var(--tiza-accent-900);
+    --ion-text-color: #ffffff;
+  }
+}

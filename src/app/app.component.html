@@ -1,8 +1,6 @@
 <ion-app>
-  <ion-content
-    class="bg-gradient-to-br from-primary-600 via-secondary-800 to-secondary-900 min-h-screen relative overflow-x-hidden"
-  >
-    <!-- Animated background elements - Exact copy from Astro project -->
+  <ion-content class="tiza-content-gradient tiza-safe-area">
+    <!-- Animated background elements - Using Tailwind classes -->
     <div class="fixed inset-0 pointer-events-none">
       <div
         class="absolute top-10 left-10 w-72 h-72 bg-primary-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"
@@ -18,9 +16,118 @@
     </div>
 
     <!-- Main content area -->
-    <div class="relative z-10 min-h-screen center-flex flex-col">
-      <!-- Welcome Section -->
-      <ion-router-outlet></ion-router-outlet>
+    <div class="relative z-10 min-h-screen tiza-center flex-col px-4 py-8">
+      <!-- Hero Card with Tiza Go Theme -->
+      <div
+        class="tiza-glass-card tiza-fade-in-up max-w-lg w-full mb-8 p-8 text-center"
+      >
+        <div class="mb-6">
+          <h1 class="text-4xl font-black text-white mb-2">
+            <span class="tiza-text-gradient-animated">TIZA GO</span>
+          </h1>
+          <p class="text-lg text-white/90 mb-4">
+            Tema Ionic SCSS Personalizado
+          </p>
+          <div
+            class="w-16 h-1 tiza-bg-gradient-sunset rounded-full mx-auto mb-4"
+          ></div>
+        </div>
+
+        <p class="text-white/80 text-base mb-6 leading-relaxed">
+          Tema moderno basado en tailwind.config.js con efectos glassmorphism
+        </p>
+
+        <!-- Tiza Go Theme Button -->
+        <ion-button class="tiza-button-primary tiza-touch-feedback mb-4">
+          <span class="font-semibold">Tema Tiza Go</span>
+        </ion-button>
+      </div>
+
+      <!-- Feature Cards with Tiza Go Theme -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mb-8">
+        <!-- Primary Color Card -->
+        <div
+          class="tiza-glass tiza-hover-lift tiza-touch-feedback p-6 rounded-lg"
+        >
+          <div
+            class="w-12 h-12 tiza-bg-gradient-primary rounded-full tiza-center mb-4 tiza-glow"
+          >
+            <div class="w-6 h-6 bg-white rounded-full opacity-80"></div>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">Rojo Primario</h3>
+          <p class="text-white/70 text-sm mb-3">
+            Color principal del tema Tiza Go
+          </p>
+          <div class="text-xs text-white/60 font-mono">#dc2626</div>
+        </div>
+
+        <!-- Secondary Color Card -->
+        <div
+          class="tiza-glass tiza-hover-lift tiza-touch-feedback p-6 rounded-lg"
+        >
+          <div
+            class="w-12 h-12 tiza-bg-gradient-secondary rounded-full tiza-center mb-4 tiza-glow"
+          >
+            <div class="w-6 h-6 bg-white rounded-full opacity-80"></div>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">
+            Naranja Secundario
+          </h3>
+          <p class="text-white/70 text-sm mb-3">Color secundario energético</p>
+          <div class="text-xs text-white/60 font-mono">#d97706</div>
+        </div>
+
+        <!-- Accent Color Card -->
+        <div
+          class="tiza-glass tiza-hover-lift tiza-touch-feedback p-6 rounded-lg"
+        >
+          <div
+            class="w-12 h-12 tiza-bg-gradient-accent rounded-full tiza-center mb-4 tiza-glow"
+          >
+            <div class="w-6 h-6 bg-white rounded-full opacity-80"></div>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">Gris Acento</h3>
+          <p class="text-white/70 text-sm mb-3">Color de acento elegante</p>
+          <div class="text-xs text-white/60 font-mono">#475569</div>
+        </div>
+
+        <!-- Theme Info Card -->
+        <div
+          class="tiza-glass-strong tiza-hover-lift tiza-touch-feedback p-6 rounded-lg"
+        >
+          <div
+            class="w-12 h-12 tiza-bg-gradient-ocean rounded-full tiza-center mb-4 tiza-pulse"
+          >
+            <div class="w-6 h-6 bg-white rounded-full opacity-80"></div>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">Tema SCSS</h3>
+          <p class="text-white/70 text-sm mb-3">
+            Archivo SCSS en carpeta themes
+          </p>
+          <div class="text-xs text-white/60 font-mono">Tiza-go-theme.scss</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons with Tiza Go Theme -->
+      <div class="flex flex-col sm:flex-row gap-4 w-full max-w-md tiza-fade-in">
+        <ion-button class="tiza-button-secondary tiza-touch-feedback">
+          <span class="font-semibold">Secundario</span>
+        </ion-button>
+
+        <ion-button class="tiza-button-glass tiza-touch-feedback">
+          <span class="font-semibold">Glassmorphism</span>
+        </ion-button>
+      </div>
+
+      <!-- Status with Tiza Go Theme -->
+      <div class="tiza-glass rounded-full px-6 py-3 mt-8 tiza-float">
+        <div class="flex items-center space-x-3">
+          <div class="w-3 h-3 bg-green-500 rounded-full tiza-glow"></div>
+          <span class="text-white/80 text-sm">
+            Tema Tiza Go SCSS - Activo
+          </span>
+        </div>
+      </div>
     </div>
 
     <!-- Decorative floating particles -->

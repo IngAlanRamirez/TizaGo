@@ -46,6 +46,13 @@
 @tailwind utilities;
 
 /**
+ * TIZA GO THEME - Ionic SCSS
+ * -----------------------------------------------------
+ * Importar el tema personalizado basado en tailwind.config.js
+ */
+@import "../themes/Tiza-go-theme.scss";
+
+/**
  * Background Styles from Astro Project
  * -----------------------------------------------------
  * Estilos adicionales para replicar el fondo del proyecto Astro
