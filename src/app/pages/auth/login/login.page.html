@@ -1,0 +1,145 @@
+<ion-content class="login-page">
+  <div
+    class="min-h-screen flex flex-col justify-center items-center px-6 py-12 bg-gradient-to-br from-red-600 via-gray-800 to-black"
+  >
+    <!-- Logo y Título -->
+    <div class="text-center mb-12">
+      <div class="flex items-center justify-center mb-6">
+        <ion-card
+          class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg border-0"
+        >
+          <ion-icon name="restaurant" class="text-3xl text-red-600"></ion-icon>
+        </ion-card>
+      </div>
+      <h1 class="text-4xl font-bold text-white mb-2">TizaGo</h1>
+      <p class="text-white/80 text-lg">Tu comida favorita a domicilio</p>
+    </div>
+
+    <!-- Formulario de Login -->
+    <div class="w-full max-w-md">
+      <ion-card
+        class="bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 shadow-2xl px-3 pt-3 pb-0"
+      >
+        <ion-card-header class="text-center pb-4">
+          <ion-card-title class="text-2xl font-bold text-white">
+            Iniciar sesión
+          </ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content class="p-6">
+          <form class="space-y-6">
+            <!-- Campo Email -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="mail-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                type="email"
+                placeholder="tu@email.com"
+                class="text-white placeholder-white/50"
+                [clearInput]="true"
+                [clearOnEdit]="false"
+              ></ion-input>
+            </ion-item>
+
+            <!-- Campo Contraseña -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="lock-closed-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                [type]="showPassword ? 'text' : 'password'"
+                placeholder="Tu contraseña"
+                class="text-white placeholder-white/50"
+                [clearInput]="false"
+              ></ion-input>
+              <ion-button
+                fill="clear"
+                slot="end"
+                (click)="togglePasswordVisibility()"
+                class="text-white/60 hover:text-white/80"
+              >
+                <ion-icon
+                  [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+                ></ion-icon>
+              </ion-button>
+            </ion-item>
+
+            <!-- Recordar sesión -->
+            <div class="flex items-center gap-3 mx-1 my-2">
+              <ion-checkbox
+                class="--checkmark-color: white --background-checked: red-600"
+              ></ion-checkbox>
+              <ion-label class="text-white/80">Recordar sesión</ion-label>
+            </div>
+
+            <!-- Botón de Login -->
+            <ion-button
+              expand="block"
+              (click)="onLogin()"
+              class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-xl h-14 font-semibold shadow-lg transform hover:scale-[1.02] transition-all duration-200"
+            >
+              <ion-icon name="log-in-outline" slot="start"></ion-icon>
+              Iniciar sesión
+            </ion-button>
+
+            <!-- Enlace Olvidé mi contraseña -->
+            <div class="text-center">
+              <ion-button
+                fill="clear"
+                (click)="onForgotPassword()"
+                class="text-white/70 hover:text-white font-medium"
+              >
+                ¿Olvidaste tu contraseña?
+              </ion-button>
+            </div>
+          </form>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Divider -->
+      <div class="flex items-center my-8">
+        <div class="flex-1 border-t border-white/20"></div>
+        <span class="px-4 text-white/60 text-sm">o</span>
+        <div class="flex-1 border-t border-white/20"></div>
+      </div>
+
+      <!-- Botón de Registro -->
+      <div class="text-center">
+        <p class="text-white/70 mb-4">¿No tienes cuenta?</p>
+        <ion-button
+          expand="block"
+          fill="outline"
+          (click)="onRegister()"
+          class="border-2 border-white/30 text-white hover:bg-white/10 rounded-xl h-14 font-semibold"
+        >
+          <ion-icon name="person-add-outline" slot="start"></ion-icon>
+          Crear cuenta
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-12 flex justify-center items-center w-full">
+      <div class="flex flex-row items-center gap-2 text-white/50 text-sm">
+        <span>Al continuar, aceptas nuestros</span>
+        <ion-button
+          fill="clear"
+          (click)="onTermsAndConditions()"
+          class="text-white/70 p-0 h-auto text-sm font-semibold"
+          >términos y condiciones</ion-button
+        >
+      </div>
+    </div>
+  </div>
+</ion-content>
