@@ -1,0 +1,96 @@
+.tiza-header {
+  --background: var(--tiza-glass-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--tiza-glass-border);
+
+  ion-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+  }
+}
+
+.tiza-content {
+  --background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.05) 0%,
+    rgba(245, 158, 11, 0.05) 100%
+  );
+}
+
+.perfil-container {
+  padding: 16px;
+}
+
+.perfil-card {
+  .perfil-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 40px;
+      background: var(--tiza-primary-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 2.5rem;
+        color: white;
+      }
+    }
+
+    .info {
+      h2 {
+        margin: 0 0 4px 0;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .perfil-details {
+    margin-bottom: 24px;
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--tiza-glass-border);
+
+      ion-icon {
+        font-size: 1.2rem;
+        color: var(--tiza-primary-600);
+      }
+
+      span {
+        color: white;
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  .perfil-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    ion-button {
+      --height: 48px;
+      --border-radius: 12px;
+      font-weight: 500;
+    }
+  }
+}

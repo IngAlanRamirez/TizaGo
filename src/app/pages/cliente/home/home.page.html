@@ -1,0 +1,240 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="tiza-header">
+    <!-- Logo de la app -->
+    <div slot="start" class="logo-container">
+      <img src="assets/icon/TizaGo.png" alt="TizaGo" class="logo-mini" />
+    </div>
+
+    <!-- Botón de notificaciones -->
+    <ion-button
+      slot="end"
+      fill="clear"
+      class="notification-button"
+      routerLink="/cliente/profile"
+    >
+      <ion-icon name="person-outline"></ion-icon>
+      @if (notificacionesCount() > 0) {
+      <ion-badge class="tiza-badge-notification">
+        {{ notificacionesCount() }}
+      </ion-badge>
+      }
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="tiza-content">
+  <!-- Refresher -->
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content>
+      <ion-icon name="refresh-outline"></ion-icon>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Header con saludo -->
+  <div class="header-section">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          @if (usuario(); as user) {
+          <div class="welcome-card tiza-glass-card">
+            <div class="welcome-content">
+              <div class="welcome-text">
+                <h2>{{ saludo() }}</h2>
+                <p class="subtitle">¿Qué se te antoja hoy?</p>
+              </div>
+              @if (user.avatar) {
+              <img
+                [src]="user.avatar"
+                [alt]="user.nombre"
+                class="user-avatar"
+              />
+              }
+            </div>
+          </div>
+          } @else {
+          <div class="welcome-card tiza-glass-card">
+            <ion-skeleton-text
+              animated
+              [style.width]="'60%'"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              [style.width]="'40%'"
+            ></ion-skeleton-text>
+          </div>
+          }
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Estadísticas rápidas -->
+  <div class="stats-section">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-card
+            class="tiza-glass-card stat-card"
+            routerLink="/cliente/carrito"
+          >
+            <ion-card-content>
+              <div class="stat-content">
+                <ion-icon name="cart-outline" class="stat-icon"></ion-icon>
+                <div class="stat-info">
+                  <h3>{{ carritoCount() }}</h3>
+                  <p>En carrito</p>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card
+            class="tiza-glass-card stat-card"
+            routerLink="/cliente/pedidos"
+          >
+            <ion-card-content>
+              <div class="stat-content">
+                <ion-icon name="receipt-outline" class="stat-icon"></ion-icon>
+                <div class="stat-info">
+                  <h3>2</h3>
+                  <p>Pedidos activos</p>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Negocios sugeridos -->
+  <div class="section">
+    <div class="section-header">
+      <h3>Negocios sugeridos</h3>
+      <ion-button
+        fill="clear"
+        size="small"
+        routerLink="/cliente/negocios"
+        (click)="verTodosNegocios()"
+      >
+        Ver todos
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+
+    @defer (when !isLoading()) {
+    <ion-grid>
+      <ion-row>
+        @for (negocio of negociosSugeridos(); track negocio.id) {
+        <ion-col size="6" size-md="4" size-lg="3">
+          <ion-card
+            class="tiza-glass-card negocio-card"
+            button="true"
+            [routerLink]="['/cliente/negocios', negocio.id]"
+          >
+            <div class="negocio-image">
+              <img [src]="negocio.imagen" [alt]="negocio.nombre" />
+              @if (negocio.promocion) {
+              <div class="promocion-badge">{{ negocio.promocion }}</div>
+              }
+            </div>
+            <ion-card-content>
+              <h4>{{ negocio.nombre }}</h4>
+              <p class="categoria">{{ negocio.categoria }}</p>
+              <div class="negocio-info">
+                <div class="rating">
+                  <ion-icon name="star" class="star-icon"></ion-icon>
+                  <span>{{ negocio.rating }}</span>
+                </div>
+                <div class="tiempo">
+                  <ion-icon name="time-outline"></ion-icon>
+                  <span>{{ negocio.tiempoEntrega }} min</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+    } @loading {
+    <ion-grid>
+      <ion-row>
+        @for (item of [1,2,3,4]; track $index) {
+        <ion-col size="6" size-md="4" size-lg="3">
+          <ion-card class="tiza-glass-card">
+            <div class="skeleton-image">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </div>
+            <ion-card-content>
+              <ion-skeleton-text
+                animated
+                [style.width]="'80%'"
+              ></ion-skeleton-text>
+              <ion-skeleton-text
+                animated
+                [style.width]="'60%'"
+              ></ion-skeleton-text>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+    }
+  </div>
+
+  <!-- Promociones destacadas -->
+  <div class="section">
+    <div class="section-header">
+      <h3>Promociones destacadas</h3>
+      <ion-button fill="clear" size="small" (click)="verTodasPromociones()">
+        Ver todas
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+
+    @defer (when !isLoading()) {
+    <div class="promociones-container">
+      @for (promocion of promociones(); track promocion.id) {
+      <ion-card class="tiza-glass-card promocion-card" button="true">
+        <div class="promocion-content">
+          <img [src]="promocion.imagen" [alt]="promocion.titulo" />
+          <div class="promocion-info">
+            <h4>{{ promocion.titulo }}</h4>
+            <p>{{ promocion.descripcion }}</p>
+            <div class="promocion-details">
+              <span class="negocio">{{ promocion.negocio }}</span>
+              <span class="descuento">{{ promocion.descuento }}% OFF</span>
+            </div>
+          </div>
+        </div>
+      </ion-card>
+      }
+    </div>
+    } @loading {
+    <div class="promociones-container">
+      @for (item of [1,2]; track $index) {
+      <ion-card class="tiza-glass-card">
+        <div class="promocion-content">
+          <div class="skeleton-image">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </div>
+          <div class="promocion-info">
+            <ion-skeleton-text
+              animated
+              [style.width]="'70%'"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              [style.width]="'90%'"
+            ></ion-skeleton-text>
+          </div>
+        </div>
+      </ion-card>
+      }
+    </div>
+    }
+  </div>
+</ion-content>

@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="tiza-header">
+    <ion-title>Mi Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="tiza-content">
+  <div class="perfil-container">
+    @if (!isLoading()) {
+    <ion-card class="tiza-glass-card perfil-card">
+      <ion-card-content>
+        <div class="perfil-header">
+          <div class="avatar">
+            <ion-icon name="person-outline"></ion-icon>
+          </div>
+          <div class="info">
+            <h2>{{ usuario().nombre }}</h2>
+            <p>Cliente verificado</p>
+          </div>
+        </div>
+
+        <div class="perfil-details">
+          <div class="detail-item">
+            <ion-icon name="mail-outline"></ion-icon>
+            <span>{{ usuario().email }}</span>
+          </div>
+          <div class="detail-item">
+            <ion-icon name="call-outline"></ion-icon>
+            <span>{{ usuario().telefono }}</span>
+          </div>
+        </div>
+
+        <div class="perfil-actions">
+          <ion-button fill="outline" class="tiza-button-outline" disabled>
+            Editar Perfil
+          </ion-button>
+          <ion-button
+            fill="solid"
+            class="tiza-button-danger"
+            (click)="cerrarSesion()"
+          >
+            <ion-icon name="log-out-outline" slot="start"></ion-icon>
+            Cerrar Sesión
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    } @else {
+    <ion-card class="tiza-glass-card">
+      <ion-card-content>
+        <div class="perfil-header">
+          <div class="avatar">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </div>
+          <div class="info">
+            <ion-skeleton-text
+              animated
+              [style.width]="'60%'"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              [style.width]="'40%'"
+            ></ion-skeleton-text>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    }
+  </div>
+</ion-content>

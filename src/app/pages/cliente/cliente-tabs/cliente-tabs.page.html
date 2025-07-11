@@ -1,0 +1,47 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom" class="tiza-tab-bar">
+    <!-- Tab Home -->
+    <ion-tab-button tab="home" class="tiza-tab-button">
+      <ion-icon aria-hidden="true" name="home-outline"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <!-- Tab Businesses -->
+    <ion-tab-button tab="businesses" class="tiza-tab-button">
+      <ion-icon aria-hidden="true" name="storefront-outline"></ion-icon>
+      <ion-label>Businesses</ion-label>
+    </ion-tab-button>
+
+    <!-- Tab Orders -->
+    <ion-tab-button tab="orders" class="tiza-tab-button">
+      <ion-icon aria-hidden="true" name="receipt-outline"></ion-icon>
+      <ion-label>Orders</ion-label>
+      @if (notificacionesCount() > 0) {
+      <ion-badge class="tiza-badge-notification">
+        {{ notificacionesCount() }}
+      </ion-badge>
+      }
+    </ion-tab-button>
+
+    <!-- Tab Profile -->
+    <ion-tab-button tab="profile" class="tiza-tab-button">
+      <ion-icon aria-hidden="true" name="person-outline"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+
+<!-- FAB para Carrito (flotante) -->
+@if (carritoItemsCount() > 0) {
+<ion-fab
+  vertical="bottom"
+  horizontal="end"
+  slot="fixed"
+  class="tiza-fab-carrito"
+>
+  <ion-fab-button class="tiza-fab-button" routerLink="/cliente/cart">
+    <ion-icon name="cart-outline"></ion-icon>
+    <ion-badge class="tiza-fab-badge"> {{ carritoItemsCount() }} </ion-badge>
+  </ion-fab-button>
+</ion-fab>
+}

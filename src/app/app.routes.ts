@@ -11,6 +11,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/auth/auth.routes').then((m) => m.authRoutes),
   },
+  {
+    path: 'cliente',
+    loadChildren: () =>
+      import('./pages/cliente/cliente.routes').then((m) => m.clienteRoutes),
+  },
   // Mantener estas rutas por compatibilidad (opcional - se pueden remover después)
   {
     path: 'login',
