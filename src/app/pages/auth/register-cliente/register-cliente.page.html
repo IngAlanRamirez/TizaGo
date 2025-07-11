@@ -40,7 +40,8 @@
       >
         <ion-card-content class="p-6">
           <!-- Paso 1: Datos personales -->
-          <div *ngIf="currentStep === 1" class="space-y-6">
+          @if (currentStep === 1) {
+          <div class="space-y-6">
             <h2 class="text-xl font-bold text-white text-center mb-6">
               Datos personales
             </h2>
@@ -165,9 +166,11 @@
               </ion-button>
             </ion-item>
           </div>
+          }
 
           <!-- Paso 2: Dirección -->
-          <div *ngIf="currentStep === 2" class="space-y-6">
+          @if (currentStep === 2) {
+          <div class="space-y-6">
             <h2 class="text-xl font-bold text-white text-center mb-6">
               Dirección de entrega
             </h2>
@@ -272,9 +275,11 @@
               </ion-input>
             </ion-item>
           </div>
+          }
 
           <!-- Paso 3: Términos y condiciones -->
-          <div *ngIf="currentStep === 3" class="space-y-6">
+          @if (currentStep === 3) {
+          <div class="space-y-6">
             <h2 class="text-xl font-bold text-white text-center mb-6">
               Términos y condiciones
             </h2>
@@ -310,11 +315,12 @@
               </div>
             </div>
           </div>
+          }
 
           <!-- Botones de navegación -->
           <div class="flex gap-4 mt-8">
+            @if (currentStep > 1) {
             <ion-button
-              *ngIf="currentStep > 1"
               expand="block"
               fill="outline"
               (click)="previousStep()"
@@ -323,9 +329,8 @@
               <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
               Atrás
             </ion-button>
-
+            } @if (currentStep < totalSteps) {
             <ion-button
-              *ngIf="currentStep < totalSteps"
               expand="block"
               (click)="nextStep()"
               class="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-xl h-14 font-semibold shadow-lg transform hover:scale-[1.02] transition-all duration-200"
@@ -333,9 +338,8 @@
               Siguiente
               <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
             </ion-button>
-
+            } @if (currentStep === totalSteps) {
             <ion-button
-              *ngIf="currentStep === totalSteps"
               expand="block"
               (click)="onSubmit()"
               [disabled]="!formData.acceptTerms"
@@ -344,6 +348,7 @@
               <ion-icon name="checkmark-outline" slot="start"></ion-icon>
               Crear cuenta
             </ion-button>
+            }
           </div>
         </ion-card-content>
       </ion-card>
