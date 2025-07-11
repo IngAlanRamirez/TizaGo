@@ -1,0 +1,287 @@
+.verify-account-page {
+  --background: linear-gradient(135deg, #dc2626 0%, #1f2937 50%, #000000 100%);
+}
+
+ion-content {
+  --background: linear-gradient(135deg, #dc2626 0%, #1f2937 50%, #000000 100%);
+}
+
+ion-toolbar {
+  --background: rgba(255, 255, 255, 0.1);
+  --color: white;
+  backdrop-filter: blur(20px);
+}
+
+ion-title {
+  color: white;
+  font-weight: 600;
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.text-center h1 {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+
+.text-center p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+}
+
+ion-card {
+  --background: rgba(255, 255, 255, 0.1);
+  --color: white;
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+ion-card-header {
+  ion-card-title {
+    color: white;
+    font-weight: 600;
+  }
+
+  ion-card-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+ion-item {
+  --background: rgba(255, 255, 255, 0.1);
+  --color: white;
+  --border-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+
+  // Cuando es clickeable (button)
+  &[button] {
+    cursor: pointer;
+    --ripple-color: rgba(220, 38, 38, 0.3);
+
+    // Efecto hover más pronunciado para elementos clickeables
+    &:hover {
+      --background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    // Efecto active/pressed
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // Efecto hover general (para items no clickeables)
+  &:not([button]):hover {
+    --background: rgba(255, 255, 255, 0.12);
+  }
+
+  // Cuando el radio está seleccionado
+  &.item-radio-checked {
+    --background: rgba(220, 38, 38, 0.2);
+    --border-color: #dc2626;
+    border: 2px solid #dc2626;
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.3);
+
+    // Efecto hover cuando está seleccionado
+    &[button]:hover {
+      --background: rgba(220, 38, 38, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    // Efecto active cuando está seleccionado
+    &[button]:active {
+      --background: rgba(220, 38, 38, 0.3);
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+    }
+
+    ion-label {
+      h3 {
+        color: #fef2f2;
+        font-weight: 700;
+      }
+
+      p {
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+
+    // Icono de confirmación
+    ion-icon[slot="end"] {
+      color: #22c55e;
+      font-size: 1.5rem;
+      animation: checkmarkAppear 0.3s ease-in-out;
+    }
+  }
+
+  ion-label {
+    color: white;
+
+    h3 {
+      color: white;
+      font-weight: 600;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+  }
+
+  ion-input {
+    --color: white;
+    --placeholder-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: "Courier New", monospace;
+    letter-spacing: 0.5rem;
+  }
+
+  ion-radio {
+    --color: #dc2626;
+    --color-checked: #dc2626;
+    --border-color: rgba(255, 255, 255, 0.6);
+    --border-color-checked: #dc2626;
+    --border-width: 2px;
+    --border-width-checked: 3px;
+    --checkmark-color: white;
+    margin-right: 8px;
+
+    // Aumentar el tamaño para mejor visibilidad
+    width: 24px;
+    height: 24px;
+
+    // Evitar que el radio capture eventos cuando el item es clickeable
+    pointer-events: none;
+
+    // Efecto de hover/focus
+    &:hover {
+      --border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    &:focus {
+      --border-color: #dc2626;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.3);
+    }
+  }
+}
+
+ion-button {
+  &[expand="block"] {
+    --background: linear-gradient(135deg, #dc2626, #b91c1c);
+    --color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    height: 48px;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+
+    &[disabled] {
+      --background: rgba(255, 255, 255, 0.1);
+      --color: rgba(255, 255, 255, 0.5);
+      box-shadow: none;
+    }
+
+    &:not([disabled]):hover {
+      --background: linear-gradient(135deg, #b91c1c, #991b1b);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+    }
+  }
+
+  &[fill="clear"] {
+    --color: rgba(255, 255, 255, 0.8);
+
+    &:hover {
+      --color: white;
+    }
+  }
+}
+
+// Animaciones
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes checkmarkAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Estilos específicos para verificación
+.verification-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 1rem 0;
+
+  ion-icon {
+    color: #22c55e;
+    font-size: 1.2rem;
+  }
+
+  span {
+    color: white;
+    font-weight: 500;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .text-center h1 {
+    font-size: 1.8rem;
+  }
+
+  .text-center p {
+    font-size: 1rem;
+  }
+
+  ion-card {
+    margin: 0 8px;
+  }
+}
+
+// Estados de carga
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+
+  ion-spinner {
+    --color: white;
+    width: 32px;
+    height: 32px;
+  }
+}

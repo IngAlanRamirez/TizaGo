@@ -26,4 +26,11 @@ export const authRoutes: Routes = [
         (m) => m.RegisterNegocioPage,
       ),
   },
+  {
+    path: 'verify-account',
+    loadComponent: () =>
+      import('./verify-account/verify-account.page').then(
+        (m) => m.VerifyAccountPage,
+      ),
+  },
 ];

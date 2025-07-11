@@ -92,9 +92,20 @@ export class RegisterNegocioPage {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  onSubmit() {
+  async onSubmit() {
     console.log('Crear cuenta negocio:', this.formData);
-    // Aquí iría la lógica de registro
+
+    // Simular registro exitoso
+    const alert = await this.alertController.create({
+      header: '¡Registro exitoso!',
+      message:
+        'Tu negocio ha sido registrado. Ahora necesitas verificar tu identidad.',
+      buttons: ['Continuar'],
+    });
+    await alert.present();
+
+    // Redirigir a verificación de cuenta
+    this.router.navigate(['/auth/verify-account']);
   }
 
   onLogin() {

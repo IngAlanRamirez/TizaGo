@@ -65,9 +65,20 @@ export class RegisterClientePage {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  onSubmit() {
+  async onSubmit() {
     console.log('Crear cuenta cliente:', this.formData);
-    // Aquí iría la lógica de registro
+
+    // Simular registro exitoso
+    const alert = await this.alertController.create({
+      header: '¡Registro exitoso!',
+      message:
+        'Tu cuenta ha sido creada. Ahora necesitas verificar tu identidad.',
+      buttons: ['Continuar'],
+    });
+    await alert.present();
+
+    // Redirigir a verificación de cuenta
+    this.router.navigate(['/auth/verify-account']);
   }
 
   onLogin() {
