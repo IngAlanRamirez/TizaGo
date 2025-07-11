@@ -21,7 +21,8 @@
   </div>
 
   <!-- Selección de método -->
-  <div *ngIf="!isCodeSent">
+  @if (!isCodeSent) {
+  <div>
     <ion-card>
       <ion-card-header>
         <ion-card-title>Selecciona un método de verificación</ion-card-title>
@@ -39,13 +40,10 @@
               <p>{{userEmail}}</p>
               <p>Enviaremos un código de 6 dígitos</p>
             </ion-label>
-            <ion-icon
-              *ngIf="selectedMethod === 'email'"
-              name="checkmark-circle"
-              slot="end"
-              color="success"
-            >
+            @if (selectedMethod === 'email') {
+            <ion-icon name="checkmark-circle" slot="end" color="success">
             </ion-icon>
+            }
           </ion-item>
 
           <ion-item
@@ -59,13 +57,10 @@
               <p>{{userPhone}}</p>
               <p>Recibirás un SMS con el código</p>
             </ion-label>
-            <ion-icon
-              *ngIf="selectedMethod === 'sms'"
-              name="checkmark-circle"
-              slot="end"
-              color="success"
-            >
+            @if (selectedMethod === 'sms') {
+            <ion-icon name="checkmark-circle" slot="end" color="success">
             </ion-icon>
+            }
           </ion-item>
         </ion-radio-group>
 
@@ -80,9 +75,11 @@
       </ion-card-content>
     </ion-card>
   </div>
+  }
 
   <!-- Ingreso de código -->
-  <div *ngIf="isCodeSent">
+  @if (isCodeSent) {
+  <div>
     <ion-card>
       <ion-card-header>
         <ion-card-title>Ingresa tu código</ion-card-title>
@@ -113,17 +110,14 @@
         </ion-button>
 
         <div class="ion-text-center ion-margin-top">
-          <p *ngIf="countdown > 0">
-            Reenviar código en {{formatTime(countdown)}}
-          </p>
-          <ion-button
-            *ngIf="countdown <= 0"
-            fill="clear"
-            (click)="resendCode()"
-          >
+          @if (countdown > 0) {
+          <p>Reenviar código en {{formatTime(countdown)}}</p>
+          } @else {
+          <ion-button fill="clear" (click)="resendCode()">
             <ion-icon name="refresh-outline" slot="start"></ion-icon>
             Reenviar código
           </ion-button>
+          }
         </div>
 
         <div class="ion-text-center">
@@ -138,6 +132,7 @@
       </ion-card-content>
     </ion-card>
   </div>
+  }
 
   <div class="ion-text-center ion-margin-top">
     <ion-icon name="shield-outline"></ion-icon>
