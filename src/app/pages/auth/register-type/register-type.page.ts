@@ -8,7 +8,6 @@ import {
   IonCard,
   IonCardContent,
   IonButton,
-  IonTitle,
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -17,7 +16,6 @@ import {
   styleUrls: ['./register-type.page.scss'],
   standalone: true,
   imports: [
-    IonTitle,
     CommonModule,
     FormsModule,
     IonContent,
