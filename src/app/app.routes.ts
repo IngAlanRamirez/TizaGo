@@ -3,37 +3,33 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/auth/login',
     pathMatch: 'full',
   },
   {
+    path: 'auth',
+    loadChildren: () =>
+      import('./pages/auth/auth.routes').then((m) => m.authRoutes),
+  },
+  // Mantener estas rutas por compatibilidad (opcional - se pueden remover después)
+  {
     path: 'login',
-    loadComponent: () =>
-      import('./pages/auth/login/login.page').then((m) => m.LoginPage),
+    redirectTo: '/auth/login',
   },
   {
     path: 'register',
-    loadComponent: () =>
-      import('./pages/auth/register-type/register-type.page').then(
-        (m) => m.RegisterTypePage,
-      ),
+    redirectTo: '/auth/register',
   },
   {
     path: 'register-cliente',
-    loadComponent: () =>
-      import('./pages/auth/register-cliente/register-cliente.page').then(
-        (m) => m.RegisterClientePage,
-      ),
+    redirectTo: '/auth/register-cliente',
   },
   {
     path: 'register-negocio',
-    loadComponent: () =>
-      import('./pages/auth/register-negocio/register-negocio.page').then(
-        (m) => m.RegisterNegocioPage,
-      ),
+    redirectTo: '/auth/register-negocio',
   },
   {
     path: '**',
-    redirectTo: '/login',
+    redirectTo: '/auth/login',
   },
 ];

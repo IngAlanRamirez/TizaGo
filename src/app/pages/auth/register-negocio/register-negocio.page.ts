@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +15,11 @@ import { FormsModule } from '@angular/forms';
 export class RegisterNegocioPage {
   currentStep = 1;
   totalSteps = 4;
+
+  constructor(
+    private router: Router,
+    private alertController: AlertController,
+  ) {}
 
   // Datos del formulario
   formData = {
@@ -92,11 +99,16 @@ export class RegisterNegocioPage {
 
   onLogin() {
     console.log('Navegando a login...');
-    // Aquí iría la navegación al login
+    this.router.navigate(['/auth/login']);
   }
 
-  onTermsAndConditions() {
+  async onTermsAndConditions() {
     console.log('Abriendo términos y condiciones...');
-    // Aquí iría la navegación a términos y condiciones
+    const alert = await this.alertController.create({
+      header: 'Términos y Condiciones',
+      message: 'Los términos y condiciones estarán disponibles próximamente.',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 }

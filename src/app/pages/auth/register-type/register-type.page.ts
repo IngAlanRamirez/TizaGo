@@ -33,14 +33,14 @@ export class RegisterTypePage implements OnInit {
   ngOnInit() {}
 
   onSelectClientRegister() {
-    this.router.navigate(['/register-cliente']);
+    this.router.navigate(['/auth/register-cliente']);
   }
 
   onSelectBusinessRegister() {
-    this.router.navigate(['/register-negocio']);
+    this.router.navigate(['/auth/register-negocio']);
   }
 
   onLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 }
