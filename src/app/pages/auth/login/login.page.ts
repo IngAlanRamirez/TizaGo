@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +15,8 @@ export class LoginPage {
   showPassword = false;
   rememberMe = false;
 
+  constructor(private router: Router) {}
+
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
@@ -25,7 +28,7 @@ export class LoginPage {
 
   onRegister() {
     console.log('Navegando a registro...');
-    // Aquí iría la navegación al registro
+    this.router.navigate(['/register']);
   }
 
   onForgotPassword() {

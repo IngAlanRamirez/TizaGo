@@ -20,6 +20,21 @@ import {
   logoFacebook,
   eyeOutline,
   eyeOffOutline,
+  personOutline,
+  callOutline,
+  locationOutline,
+  businessOutline,
+  mapOutline,
+  storefrontOutline,
+  storefront,
+  pricetag,
+  pricetagOutline,
+  timeOutline,
+  checkmarkCircleOutline,
+  checkmarkOutline,
+  arrowBackOutline,
+  arrowForwardOutline,
+  chevronForwardOutline,
 } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
@@ -36,6 +51,21 @@ addIcons({
   'logo-facebook': logoFacebook,
   'eye-outline': eyeOutline,
   'eye-off-outline': eyeOffOutline,
+  'person-outline': personOutline,
+  'call-outline': callOutline,
+  'location-outline': locationOutline,
+  'business-outline': businessOutline,
+  'map-outline': mapOutline,
+  'storefront-outline': storefrontOutline,
+  storefront: storefront,
+  pricetag: pricetag,
+  'pricetag-outline': pricetagOutline,
+  'time-outline': timeOutline,
+  'checkmark-circle-outline': checkmarkCircleOutline,
+  'checkmark-outline': checkmarkOutline,
+  'arrow-back-outline': arrowBackOutline,
+  'arrow-forward-outline': arrowForwardOutline,
+  'chevron-forward-outline': chevronForwardOutline,
 });
 
 bootstrapApplication(AppComponent, {

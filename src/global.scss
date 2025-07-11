@@ -101,3 +101,239 @@ ion-content {
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
+
+/* Estilos globales para ion-datetime - FORZAR TODO BLANCO */
+ion-datetime {
+  --color: white !important;
+  --background: transparent !important;
+
+  // FORZAR color blanco en TODO
+  color: white !important;
+  background: transparent !important;
+  text-align: center !important;
+
+  // Sobrescribir ABSOLUTAMENTE TODO
+  *,
+  *::before,
+  *::after,
+  button,
+  div,
+  span,
+  p,
+  .datetime-text,
+  .datetime-placeholder,
+  .datetime-button {
+    color: white !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    text-align: center !important;
+  }
+}
+
+/* Estilos para el popover/modal del datetime */
+.datetime-popover,
+ion-popover.datetime-popover,
+ion-modal.datetime-modal {
+  --background: rgba(0, 0, 0, 0.9) !important;
+  --color: white !important;
+  backdrop-filter: blur(20px) !important;
+
+  .popover-content,
+  .modal-wrapper {
+    --background: rgba(0, 0, 0, 0.9) !important;
+    --color: white !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 16px !important;
+  }
+
+  // Forzar color blanco en todos los elementos del picker
+  *,
+  *::before,
+  *::after {
+    color: white !important;
+    background: transparent !important;
+  }
+
+  ion-item {
+    --background: transparent !important;
+    --color: white !important;
+    --border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  ion-button {
+    --color: white !important;
+    --background: rgba(255, 255, 255, 0.1) !important;
+    --background-hover: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  // Específico para el picker de tiempo
+  .time-picker,
+  .datetime-picker {
+    --background: transparent !important;
+    --color: white !important;
+
+    .picker-column {
+      --background: transparent !important;
+      --color: white !important;
+    }
+
+    .picker-item {
+      color: white !important;
+      --background: transparent !important;
+      --color: white !important;
+    }
+
+    .picker-item.picker-item-active {
+      color: white !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}
+
+// Estilos globales para cualquier picker de datetime
+.picker-columns,
+.picker-column {
+  --background: transparent !important;
+  --color: white !important;
+
+  .picker-item {
+    color: white !important;
+    --color: white !important;
+    --background: transparent !important;
+
+    &.picker-item-active {
+      color: white !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}
+
+// Estilos específicos para el datetime picker de Ionic
+ion-datetime.datetime-presentation-time {
+  --background: rgba(0, 0, 0, 0.9) !important;
+  --color: white !important;
+
+  .datetime-time {
+    --background: transparent !important;
+    --color: white !important;
+
+    .time-item {
+      color: white !important;
+      --color: white !important;
+      --background: transparent !important;
+    }
+
+    .time-item.time-item-active {
+      color: white !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}
+
+// Forzar estilos en el overlay del datetime
+.datetime-overlay {
+  --background: rgba(0, 0, 0, 0.9) !important;
+  --color: white !important;
+  backdrop-filter: blur(20px) !important;
+
+  * {
+    color: white !important;
+    --color: white !important;
+  }
+}
+
+// Estilos específicos para el picker de horas y minutos
+div.datetime-time
+  > ion-picker
+  > ion-picker-column:nth-child(1)
+  > ion-picker-column-option.ion-color.ion-color-primary.md.hydrated.option-active,
+div.datetime-time
+  > ion-picker
+  > ion-picker-column:nth-child(2)
+  > ion-picker-column-option.ion-color.ion-color-primary.md.hydrated.option-active,
+div.datetime-time
+  > ion-picker
+  > ion-picker-column
+  > ion-picker-column-option.ion-color.ion-color-primary.md.hydrated.option-active {
+  color: white !important;
+  --color: white !important;
+  --background: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  font-weight: 700 !important;
+  font-size: 1.3rem !important;
+}
+
+// Estilos para todos los elementos del picker
+div.datetime-time > ion-picker > ion-picker-column > ion-picker-column-option {
+  color: white !important;
+  --color: white !important;
+  --background: transparent !important;
+  background: transparent !important;
+  font-weight: 600 !important;
+  font-size: 1.2rem !important;
+}
+
+// Forzar estilos en ion-picker-column-option
+ion-picker-column-option {
+  color: white !important;
+  --color: white !important;
+  --background: transparent !important;
+  background: transparent !important;
+  font-weight: 600 !important;
+  font-size: 1.2rem !important;
+
+  &.option-active,
+  &.ion-color-primary {
+    color: white !important;
+    --color: white !important;
+    --background: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    font-weight: 700 !important;
+    font-size: 1.3rem !important;
+  }
+}
+
+// Sobrescribir completamente el color primario en el contexto del datetime
+ion-datetime,
+.datetime-time,
+.datetime-popover,
+ion-popover {
+  --ion-color-primary: white !important;
+  --ion-color-primary-rgb: 255, 255, 255 !important;
+  --ion-color-primary-contrast: black !important;
+  --ion-color-primary-contrast-rgb: 0, 0, 0 !important;
+  --ion-color-primary-shade: rgba(255, 255, 255, 0.8) !important;
+  --ion-color-primary-tint: rgba(255, 255, 255, 0.9) !important;
+
+  .ion-color-primary {
+    --ion-color-base: white !important;
+    --ion-color-base-rgb: 255, 255, 255 !important;
+    --ion-color-contrast: black !important;
+    --ion-color-contrast-rgb: 0, 0, 0 !important;
+    --ion-color-shade: rgba(255, 255, 255, 0.8) !important;
+    --ion-color-tint: rgba(255, 255, 255, 0.9) !important;
+    color: white !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    font-weight: 700 !important;
+    font-size: 1.3rem !important;
+  }
+
+  // Forzar fuente gruesa en todos los elementos
+  * {
+    font-weight: 600 !important;
+    color: white !important;
+    --color: white !important;
+  }
+
+  // Elementos activos con fuente más gruesa
+  .option-active,
+  .ion-color-primary,
+  .picker-item-active {
+    font-weight: 700 !important;
+    font-size: 1.3rem !important;
+    color: white !important;
+    --color: white !important;
+  }
+}

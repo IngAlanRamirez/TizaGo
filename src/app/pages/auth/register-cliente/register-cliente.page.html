@@ -1,0 +1,364 @@
+<ion-content class="register-cliente-page">
+  <div
+    class="min-h-screen flex flex-col justify-center items-center px-6 py-12 bg-gradient-to-br from-red-600 via-gray-800 to-black"
+  >
+    <!-- Logo y Título -->
+    <div class="text-center mb-8">
+      <div class="flex items-center justify-center mb-4">
+        <ion-card
+          class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg border-0"
+        >
+          <ion-icon name="restaurant" class="text-3xl text-red-600"></ion-icon>
+        </ion-card>
+      </div>
+      <h1 class="text-3xl font-bold text-white mb-2">Crear cuenta</h1>
+      <p class="text-white/80 text-lg">Únete a TizaGo como cliente</p>
+    </div>
+
+    <!-- Barra de progreso -->
+    <div class="w-full max-w-md mb-8">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-white/60 text-sm"
+          >Paso {{currentStep}} de {{totalSteps}}</span
+        >
+        <span class="text-white/60 text-sm"
+          >{{progressPercentage | number:'1.0-0'}}%</span
+        >
+      </div>
+      <div class="w-full bg-white/20 rounded-full h-2">
+        <div
+          class="bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full transition-all duration-300"
+          [style.width.%]="progressPercentage"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <div class="w-full max-w-md">
+      <ion-card
+        class="bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 shadow-2xl px-3 pt-3 pb-0"
+      >
+        <ion-card-content class="p-6">
+          <!-- Paso 1: Datos personales -->
+          <div *ngIf="currentStep === 1" class="space-y-6">
+            <h2 class="text-xl font-bold text-white text-center mb-6">
+              Datos personales
+            </h2>
+
+            <!-- Nombre completo -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="person-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                type="text"
+                placeholder="Nombre completo"
+                [(ngModel)]="formData.nombre"
+                class="text-white placeholder-white/50"
+                [clearInput]="true"
+              >
+              </ion-input>
+            </ion-item>
+
+            <!-- Email -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="mail-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                type="email"
+                placeholder="tu@email.com"
+                [(ngModel)]="formData.email"
+                class="text-white placeholder-white/50"
+                [clearInput]="true"
+              >
+              </ion-input>
+            </ion-item>
+
+            <!-- Teléfono -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="call-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                type="tel"
+                placeholder="Teléfono móvil"
+                [(ngModel)]="formData.telefono"
+                class="text-white placeholder-white/50"
+                [clearInput]="true"
+              >
+              </ion-input>
+            </ion-item>
+
+            <!-- Contraseña -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="lock-closed-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                [type]="showPassword ? 'text' : 'password'"
+                placeholder="Contraseña"
+                [(ngModel)]="formData.password"
+                class="text-white placeholder-white/50"
+                [clearInput]="false"
+              >
+              </ion-input>
+              <ion-button
+                fill="clear"
+                slot="end"
+                (click)="togglePasswordVisibility()"
+                class="text-white/60 hover:text-white/80"
+              >
+                <ion-icon
+                  [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+                ></ion-icon>
+              </ion-button>
+            </ion-item>
+
+            <!-- Confirmar contraseña -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="lock-closed-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                placeholder="Confirmar contraseña"
+                [(ngModel)]="formData.confirmPassword"
+                class="text-white placeholder-white/50"
+                [clearInput]="false"
+              >
+              </ion-input>
+              <ion-button
+                fill="clear"
+                slot="end"
+                (click)="toggleConfirmPasswordVisibility()"
+                class="text-white/60 hover:text-white/80"
+              >
+                <ion-icon
+                  [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
+                ></ion-icon>
+              </ion-button>
+            </ion-item>
+          </div>
+
+          <!-- Paso 2: Dirección -->
+          <div *ngIf="currentStep === 2" class="space-y-6">
+            <h2 class="text-xl font-bold text-white text-center mb-6">
+              Dirección de entrega
+            </h2>
+
+            <!-- Calle y número -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="location-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                type="text"
+                placeholder="Calle y número"
+                [(ngModel)]="formData.direccion.calle"
+                class="text-white placeholder-white/50"
+                [clearInput]="true"
+              >
+              </ion-input>
+            </ion-item>
+
+            <!-- Colonia -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="business-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                type="text"
+                placeholder="Colonia"
+                [(ngModel)]="formData.direccion.colonia"
+                class="text-white placeholder-white/50"
+                [clearInput]="true"
+              >
+              </ion-input>
+            </ion-item>
+
+            <!-- Ciudad -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="location-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                type="text"
+                placeholder="Ciudad"
+                [(ngModel)]="formData.direccion.ciudad"
+                class="text-white placeholder-white/50"
+                [clearInput]="true"
+              >
+              </ion-input>
+            </ion-item>
+
+            <!-- Estado -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="map-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                type="text"
+                placeholder="Estado"
+                [(ngModel)]="formData.direccion.estado"
+                class="text-white placeholder-white/50"
+                [clearInput]="true"
+              >
+              </ion-input>
+            </ion-item>
+
+            <!-- Código postal -->
+            <ion-item
+              lines="none"
+              class="bg-white/10 border border-white/20 rounded-[24px] --border-radius: 24px --background: transparent --border-color: rgba(255,255,255,0.2) mx-1"
+            >
+              <ion-icon
+                name="mail-outline"
+                slot="start"
+                class="text-white/60"
+              ></ion-icon>
+              <ion-input
+                type="text"
+                placeholder="Código postal"
+                [(ngModel)]="formData.direccion.codigoPostal"
+                class="text-white placeholder-white/50"
+                [clearInput]="true"
+              >
+              </ion-input>
+            </ion-item>
+          </div>
+
+          <!-- Paso 3: Términos y condiciones -->
+          <div *ngIf="currentStep === 3" class="space-y-6">
+            <h2 class="text-xl font-bold text-white text-center mb-6">
+              Términos y condiciones
+            </h2>
+
+            <div class="text-center mb-6">
+              <ion-icon
+                name="checkmark-circle-outline"
+                class="text-6xl text-green-400 mb-4"
+              ></ion-icon>
+              <p class="text-white/80 text-lg mb-4">¡Ya casi terminamos!</p>
+              <p class="text-white/60 text-sm">
+                Revisa tus datos y acepta nuestros términos para completar tu
+                registro.
+              </p>
+            </div>
+
+            <!-- Aceptar términos -->
+            <div class="flex items-center justify-center gap-3 mx-1 my-4">
+              <ion-checkbox
+                [(ngModel)]="formData.acceptTerms"
+                class="--checkmark-color: white --background-checked: red-600"
+              ></ion-checkbox>
+              <div
+                class="flex flex-wrap items-center justify-center gap-1 text-white/80 text-center"
+              >
+                <span>Acepto los</span>
+                <ion-button
+                  fill="clear"
+                  (click)="onTermsAndConditions()"
+                  class="text-red-400 hover:text-red-300 hover:bg-red-500/10 p-1 h-auto text-sm font-semibold underline decoration-red-400/50 hover:decoration-red-300 underline-offset-2 transition-all duration-200 rounded-md"
+                  >términos y condiciones</ion-button
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de navegación -->
+          <div class="flex gap-4 mt-8">
+            <ion-button
+              *ngIf="currentStep > 1"
+              expand="block"
+              fill="outline"
+              (click)="previousStep()"
+              class="flex-1 border-2 border-white/30 text-white hover:bg-white/10 rounded-xl h-14 font-semibold"
+            >
+              <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+              Atrás
+            </ion-button>
+
+            <ion-button
+              *ngIf="currentStep < totalSteps"
+              expand="block"
+              (click)="nextStep()"
+              class="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-xl h-14 font-semibold shadow-lg transform hover:scale-[1.02] transition-all duration-200"
+            >
+              Siguiente
+              <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+            </ion-button>
+
+            <ion-button
+              *ngIf="currentStep === totalSteps"
+              expand="block"
+              (click)="onSubmit()"
+              [disabled]="!formData.acceptTerms"
+              class="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 rounded-xl h-14 font-semibold shadow-lg transform hover:scale-[1.02] transition-all duration-200"
+            >
+              <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+              Crear cuenta
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Enlace a login -->
+      <div class="text-center mt-6">
+        <p class="text-white/70 mb-2">¿Ya tienes cuenta?</p>
+        <ion-button
+          fill="clear"
+          (click)="onLogin()"
+          class="text-white/90 hover:text-white font-semibold"
+        >
+          Iniciar sesión
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
