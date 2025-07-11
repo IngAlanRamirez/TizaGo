@@ -35,15 +35,9 @@ export class LoginPage {
     this.router.navigate(['/auth/register']);
   }
 
-  async onForgotPassword() {
+  onForgotPassword() {
     console.log('Navegando a recuperar contraseña...');
-    const alert = await this.alertController.create({
-      header: 'Recuperar contraseña',
-      message:
-        'Esta funcionalidad estará disponible próximamente. Por favor, contacta al soporte si necesitas ayuda.',
-      buttons: ['OK'],
-    });
-    await alert.present();
+    this.router.navigate(['/auth/forgot-password']);
   }
 
   async onGoogleLogin() {

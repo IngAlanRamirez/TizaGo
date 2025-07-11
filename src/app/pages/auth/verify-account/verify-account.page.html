@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Verificar Cuenta</ion-title>
+    <ion-title>{{pageTitle}}</ion-title>
     <ion-buttons slot="start">
       <ion-button (click)="goBack()">
         <ion-icon name="arrow-back-outline"></ion-icon>
@@ -11,13 +11,9 @@
 
 <ion-content class="ion-padding">
   <div class="text-center">
-    <ion-icon
-      name="shield-checkmark-outline"
-      size="large"
-      color="primary"
-    ></ion-icon>
-    <h1>Verificar tu cuenta</h1>
-    <p>Necesitas verificar tu identidad para activar tu cuenta</p>
+    <ion-icon [name]="iconName" size="large" [color]="primaryColor"></ion-icon>
+    <h1>{{pageTitle}}</h1>
+    <p>{{pageSubtitle}}</p>
   </div>
 
   <!-- Selección de método -->
@@ -25,43 +21,31 @@
   <div>
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Selecciona un método de verificación</ion-card-title>
+        <ion-card-title>
+          @if (mode === 'recovery') { Método de recuperación } @else {
+          Selecciona un método de verificación }
+        </ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-radio-group [(ngModel)]="selectedMethod">
+          @for (method of verificationMethods; track method.type) {
           <ion-item
             button
-            (click)="selectMethod('email')"
-            [class.item-radio-checked]="selectedMethod === 'email'"
+            (click)="selectMethod(method.type)"
+            [class.item-radio-checked]="selectedMethod === method.type"
           >
-            <ion-radio slot="start" value="email"></ion-radio>
+            <ion-radio slot="start" [value]="method.type"></ion-radio>
             <ion-label>
-              <h3>Correo electrónico</h3>
-              <p>{{userEmail}}</p>
-              <p>Enviaremos un código de 6 dígitos</p>
+              <h3>{{method.label}}</h3>
+              <p>{{method.contact}}</p>
+              <p>{{method.description}}</p>
             </ion-label>
-            @if (selectedMethod === 'email') {
+            @if (selectedMethod === method.type) {
             <ion-icon name="checkmark-circle" slot="end" color="success">
             </ion-icon>
             }
           </ion-item>
-
-          <ion-item
-            button
-            (click)="selectMethod('sms')"
-            [class.item-radio-checked]="selectedMethod === 'sms'"
-          >
-            <ion-radio slot="start" value="sms"></ion-radio>
-            <ion-label>
-              <h3>Mensaje de texto</h3>
-              <p>{{userPhone}}</p>
-              <p>Recibirás un SMS con el código</p>
-            </ion-label>
-            @if (selectedMethod === 'sms') {
-            <ion-icon name="checkmark-circle" slot="end" color="success">
-            </ion-icon>
-            }
-          </ion-item>
+          }
         </ion-radio-group>
 
         <ion-button
@@ -70,7 +54,8 @@
           class="ion-margin-top"
         >
           <ion-icon name="send-outline" slot="start"></ion-icon>
-          Enviar código
+          @if (mode === 'recovery') { Enviar código de recuperación } @else {
+          Enviar código }
         </ion-button>
       </ion-card-content>
     </ion-card>
@@ -84,7 +69,8 @@
       <ion-card-header>
         <ion-card-title>Ingresa tu código</ion-card-title>
         <ion-card-subtitle>
-          Enviado a {{selectedMethod === 'email' ? userEmail : userPhone}}
+          @if (mode === 'recovery') { Enviado a {{recoveryContact}} } @else {
+          Enviado a {{selectedMethod === 'email' ? userEmail : userPhone}} }
         </ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
@@ -106,7 +92,8 @@
           class="ion-margin-top"
         >
           <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
-          Verificar código
+          @if (mode === 'recovery') { Verificar y continuar } @else { Verificar
+          código }
         </ion-button>
 
         <div class="ion-text-center ion-margin-top">
@@ -120,6 +107,7 @@
           }
         </div>
 
+        @if (mode === 'register') {
         <div class="ion-text-center">
           <ion-button
             fill="clear"
@@ -129,6 +117,7 @@
             Cambiar método
           </ion-button>
         </div>
+        }
       </ion-card-content>
     </ion-card>
   </div>
@@ -136,6 +125,11 @@
 
   <div class="ion-text-center ion-margin-top">
     <ion-icon name="shield-outline"></ion-icon>
-    <p><small>Tu seguridad es nuestra prioridad</small></p>
+    <p>
+      <small>
+        @if (mode === 'recovery') { Tu contraseña será restablecida de forma
+        segura } @else { Tu seguridad es nuestra prioridad }
+      </small>
+    </p>
   </div>
 </ion-content>
