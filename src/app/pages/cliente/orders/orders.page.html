@@ -1,16 +1,205 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="tiza-header">
     <ion-title>Mis Pedidos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="startNewOrder()" fill="clear">
+        <ion-icon name="add-outline" class="white-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="tiza-content">
+  <!-- Refresher eliminado -->
+
   <div class="container">
-    <ion-card class="tiza-glass-card">
-      <ion-card-content>
-        <h2>Historial de Pedidos</h2>
-        <p>Esta página se implementará en la siguiente fase.</p>
-      </ion-card-content>
-    </ion-card>
+    <!-- Filter Segments -->
+    <div class="filter-section">
+      <ion-segment
+        [value]="selectedFilter()"
+        (ionChange)="onFilterChange($event.detail.value)"
+        class="orders-segment"
+      >
+        <ion-segment-button value="all" class="segment-button">
+          <ion-label>
+            Todos @if (totalOrders() > 0) {
+            <ion-badge color="primary">{{ totalOrders() }}</ion-badge>
+            }
+          </ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="active" class="segment-button">
+          <ion-label>
+            Activos @if (activeOrders().length > 0) {
+            <ion-badge color="warning">{{ activeOrders().length }}</ion-badge>
+            }
+          </ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="completed" class="segment-button">
+          <ion-label>
+            Completados @if (completedOrders().length > 0) {
+            <ion-badge color="success"
+              >{{ completedOrders().length }}</ion-badge
+            >
+            }
+          </ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <!-- Loading State -->
+    @if (isLoading()) {
+    <div class="loading-container">
+      @for (i of [1,2,3]; track $index) {
+      <ion-card class="tiza-glass-card order-card">
+        <ion-card-content>
+          <div class="order-skeleton">
+            <ion-skeleton-text
+              animated
+              [style.width]="'30%'"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              [style.width]="'80%'"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              [style.width]="'60%'"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              [style.width]="'40%'"
+            ></ion-skeleton-text>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      }
+    </div>
+    }
+
+    <!-- Empty State -->
+    @else if (isEmpty()) {
+    <div class="empty-state">
+      <div class="empty-icon">
+        <ion-icon name="receipt-outline"></ion-icon>
+      </div>
+      <h2>
+        @if (selectedFilter() === 'active') { No tienes pedidos activos } @else
+        { @if (selectedFilter() === 'completed') { No tienes pedidos completados
+        } @else { No tienes pedidos aún } }
+      </h2>
+      <p>
+        @if (selectedFilter() === 'active') { Tus pedidos en curso aparecerán
+        aquí } @else { @if (selectedFilter() === 'completed') { Tu historial de
+        pedidos completados aparecerá aquí } @else { Realiza tu primer pedido y
+        aparecerá aquí } }
+      </p>
+      <ion-button
+        (click)="startNewOrder()"
+        fill="solid"
+        class="start-order-button"
+      >
+        <ion-icon name="add-outline" slot="start"></ion-icon>
+        Hacer primer pedido
+      </ion-button>
+    </div>
+    }
+
+    <!-- Orders List -->
+    @else {
+    <div class="orders-list">
+      @for (order of filteredOrders(); track order.id) {
+      <ion-card
+        class="tiza-glass-card order-card"
+        (click)="viewOrderDetail(order.id)"
+        button="true"
+      >
+        <ion-card-content>
+          <div class="order-header">
+            <div class="order-info">
+              <div class="order-number">
+                <ion-icon name="receipt-outline"></ion-icon>
+                <span>#{{ order.orderNumber }}</span>
+              </div>
+              <div class="order-date">
+                {{ formatShortDate(order.createdAt) }}
+              </div>
+            </div>
+            <ion-badge
+              [color]="getOrderStatusInfo(order.status).color"
+              class="status-badge"
+            >
+              <ion-icon
+                [name]="getOrderStatusInfo(order.status).icon"
+              ></ion-icon>
+              {{ getOrderStatusInfo(order.status).text }}
+            </ion-badge>
+          </div>
+
+          <div class="order-content">
+            <div class="business-info">
+              <div class="main-business">
+                <ion-icon name="storefront"></ion-icon>
+                <div class="business-details">
+                  <h3>{{ getMainBusiness(order).businessName }}</h3>
+                  @if (order.businesses.length > 1) {
+                  <p>
+                    y {{ order.businesses.length - 1 }} negocio{{
+                    order.businesses.length - 1 === 1 ? '' : 's' }} más
+                  </p>
+                  } @else {
+                  <p>{{ getOrderDescription(order) }}</p>
+                  }
+                </div>
+              </div>
+
+              @if (order.businesses[0].businessImage) {
+              <div class="business-image">
+                <img
+                  [src]="order.businesses[0].businessImage"
+                  [alt]="getMainBusiness(order).businessName"
+                />
+              </div>
+              }
+            </div>
+
+            <div class="order-summary">
+              <div class="summary-items">
+                <div class="summary-item">
+                  <span class="label">Total</span>
+                  <span class="value">{{ formatPrice(order.total) }}</span>
+                </div>
+                <div class="summary-item">
+                  <span class="label"
+                    >{{ getTotalItems(order) }} producto{{ getTotalItems(order)
+                    === 1 ? '' : 's' }}</span
+                  >
+                  <span class="value">{{ order.paymentMethod }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-status">
+            <div class="status-text">
+              <ion-text color="medium">{{ order.statusText }}</ion-text>
+            </div>
+            <div class="action-button">
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="viewOrderDetail(order.id); $event.stopPropagation()"
+              >
+                <ion-icon name="eye-outline" slot="start"></ion-icon>
+                Ver detalle
+              </ion-button>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      }
+    </div>
+    }
   </div>
 </ion-content>

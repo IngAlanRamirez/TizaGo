@@ -1,16 +1,273 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="tiza-header">
-    <ion-title>Confirmación</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/cliente/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Confirmación de Pedido</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="refreshOrder()"
+        fill="clear"
+        [disabled]="isLoading()"
+      >
+        <ion-icon name="refresh-outline" class="white-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="tiza-content">
   <div class="container">
-    <ion-card class="tiza-glass-card">
-      <ion-card-content>
-        <h2>Confirmación de Pedido</h2>
-        <p>Esta página se implementará en la siguiente fase.</p>
-      </ion-card-content>
-    </ion-card>
+    <!-- Loading State -->
+    @if (isLoading()) {
+    <div class="loading-container">
+      <ion-card class="tiza-glass-card">
+        <ion-card-content>
+          <ion-skeleton-text animated [style.width]="'80%'"></ion-skeleton-text>
+          <ion-skeleton-text animated [style.width]="'60%'"></ion-skeleton-text>
+          <ion-skeleton-text animated [style.width]="'40%'"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    }
+
+    <!-- Error State -->
+    @else if (error()) {
+    <div class="error-container">
+      <ion-card class="tiza-glass-card error-card">
+        <ion-card-content>
+          <div class="error-content">
+            <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
+            <h2>Error al cargar el pedido</h2>
+            <p>{{ error() }}</p>
+            <ion-button (click)="goToHome()" fill="solid" class="retry-button">
+              <ion-icon name="home-outline" slot="start"></ion-icon>
+              Ir al inicio
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    }
+
+    <!-- Order Confirmation -->
+    @else if (order()) {
+    <div class="confirmation-content">
+      <!-- Success Header -->
+      <ion-card class="tiza-glass-card success-card">
+        <ion-card-content>
+          <div class="success-header">
+            <div class="success-icon">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+            </div>
+            <h1>¡Pedido confirmado!</h1>
+            <p class="order-number">Pedido #{{ order()?.orderNumber }}</p>
+            <p class="order-date">{{ formatDate(order()!.createdAt) }}</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Order Status Progress -->
+      <ion-card class="tiza-glass-card status-card">
+        <ion-card-content>
+          <div class="status-header">
+            <div class="status-info">
+              <ion-badge
+                [color]="orderStatusInfo()?.color"
+                class="status-badge"
+              >
+                <ion-icon [name]="orderStatusInfo()?.icon"></ion-icon>
+                {{ orderStatusInfo()?.text }}
+              </ion-badge>
+              <h3>{{ order()?.statusText }}</h3>
+            </div>
+            @if (estimatedTimeRemaining()) {
+            <div class="time-remaining">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ estimatedTimeRemaining() }}</span>
+            </div>
+            }
+          </div>
+
+          <div class="progress-container">
+            <ion-progress-bar
+              [value]="progressValue()"
+              [color]="orderStatusInfo()?.color"
+            >
+            </ion-progress-bar>
+            <div class="progress-steps">
+              <div class="step" [class.active]="progressValue() >= 0.2">
+                <ion-icon name="receipt-outline"></ion-icon>
+                <span>Recibido</span>
+              </div>
+              <div class="step" [class.active]="progressValue() >= 0.4">
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                <span>Confirmado</span>
+              </div>
+              <div class="step" [class.active]="progressValue() >= 0.6">
+                <ion-icon name="restaurant-outline"></ion-icon>
+                <span>Preparando</span>
+              </div>
+              <div class="step" [class.active]="progressValue() >= 0.8">
+                <ion-icon name="car-outline"></ion-icon>
+                <span>En camino</span>
+              </div>
+              <div class="step" [class.active]="progressValue() >= 1.0">
+                <ion-icon name="checkmark-done-outline"></ion-icon>
+                <span>Entregado</span>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Order Details by Business -->
+      @for (business of order()?.businesses; track business.businessId) {
+      <ion-card class="tiza-glass-card business-card">
+        <ion-card-content>
+          <div class="business-header">
+            <div class="business-info">
+              <ion-icon name="storefront"></ion-icon>
+              <div>
+                <h3>{{ business.businessName }}</h3>
+                <p>
+                  {{ business.items.length }} {{ business.items.length === 1 ?
+                  'producto' : 'productos' }}
+                </p>
+              </div>
+            </div>
+            <div class="business-actions">
+              <ion-button
+                (click)="callBusiness(business.businessName)"
+                fill="outline"
+                size="small"
+              >
+                <ion-icon name="call-outline" slot="start"></ion-icon>
+                Llamar
+              </ion-button>
+            </div>
+          </div>
+
+          <div class="business-items">
+            @for (item of business.items; track item.id) {
+            <div class="order-item">
+              <div class="item-image">
+                @if (item.productImage) {
+                <img [src]="item.productImage" [alt]="item.productName" />
+                } @else {
+                <div class="placeholder-image">
+                  <ion-icon name="storefront"></ion-icon>
+                </div>
+                }
+              </div>
+              <div class="item-details">
+                <h4>{{ item.productName }}</h4>
+                <p class="item-price">
+                  {{ formatPrice(item.price) }} x {{ item.quantity }}
+                </p>
+              </div>
+              <div class="item-total">{{ formatPrice(item.subtotal) }}</div>
+            </div>
+            }
+          </div>
+
+          <div class="business-summary">
+            <div class="summary-line">
+              <span>Subtotal</span>
+              <span>{{ formatPrice(business.subtotal) }}</span>
+            </div>
+            <div class="summary-line">
+              <span>Envío</span>
+              <span>{{ formatPrice(business.deliveryFee) }}</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      }
+
+      <!-- Order Summary -->
+      <ion-card class="tiza-glass-card summary-card">
+        <ion-card-content>
+          <h3>Resumen del Pedido</h3>
+
+          <div class="summary-details">
+            <div class="summary-line">
+              <span>Subtotal</span>
+              <span>{{ formatPrice(order()!.subtotal) }}</span>
+            </div>
+            <div class="summary-line">
+              <span>Costo de envío</span>
+              <span>{{ formatPrice(order()!.deliveryFee) }}</span>
+            </div>
+            <div class="summary-line">
+              <span>Tarifa de servicio</span>
+              <span>{{ formatPrice(order()!.serviceFee) }}</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-line total-line">
+              <span>Total</span>
+              <span>{{ formatPrice(order()!.total) }}</span>
+            </div>
+          </div>
+
+          <div class="payment-info">
+            <div class="payment-method">
+              <ion-icon name="card-outline"></ion-icon>
+              <span>{{ order()?.paymentMethod }}</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Delivery Information -->
+      <ion-card class="tiza-glass-card delivery-card">
+        <ion-card-content>
+          <h3>Información de Entrega</h3>
+
+          <div class="delivery-info">
+            <div class="address-info">
+              <ion-icon name="location-outline"></ion-icon>
+              <div>
+                <h4>Dirección de entrega</h4>
+                <p>{{ order()?.deliveryAddress?.street }}</p>
+                <p>
+                  {{ order()?.deliveryAddress?.city }}, {{
+                  order()?.deliveryAddress?.postalCode }}
+                </p>
+                @if (order()?.deliveryAddress?.instructions) {
+                <p class="instructions">
+                  {{ order()?.deliveryAddress?.instructions }}
+                </p>
+                }
+              </div>
+            </div>
+
+            <div class="customer-info">
+              <h4>Información del cliente</h4>
+              <p>{{ order()?.customer?.name }}</p>
+              <p>{{ order()?.customer?.phone }}</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <ion-button
+          (click)="goToHome()"
+          fill="outline"
+          class="secondary-button"
+        >
+          <ion-icon name="home-outline" slot="start"></ion-icon>
+          Ir al inicio
+        </ion-button>
+
+        <ion-button (click)="goToOrders()" fill="solid" class="primary-button">
+          <ion-icon name="receipt-outline" slot="start"></ion-icon>
+          Ver mis pedidos
+        </ion-button>
+      </div>
+    </div>
+    }
   </div>
 </ion-content>

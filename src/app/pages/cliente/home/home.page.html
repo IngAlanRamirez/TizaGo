@@ -75,7 +75,7 @@
         <ion-col size="6">
           <ion-card
             class="tiza-glass-card stat-card"
-            routerLink="/cliente/carrito"
+            routerLink="/cliente/cart"
           >
             <ion-card-content>
               <div class="stat-content">
@@ -91,7 +91,7 @@
         <ion-col size="6">
           <ion-card
             class="tiza-glass-card stat-card"
-            routerLink="/cliente/pedidos"
+            routerLink="/cliente/orders"
           >
             <ion-card-content>
               <div class="stat-content">
@@ -115,7 +115,7 @@
       <ion-button
         fill="clear"
         size="small"
-        routerLink="/cliente/negocios"
+        routerLink="/cliente/businesses"
         (click)="verTodosNegocios()"
       >
         Ver todos
@@ -123,7 +123,7 @@
       </ion-button>
     </div>
 
-    @defer (when !isLoading()) {
+    @if (!isLoading()) {
     <ion-grid>
       <ion-row>
         @for (negocio of negociosSugeridos(); track negocio.id) {
@@ -131,7 +131,7 @@
           <ion-card
             class="tiza-glass-card negocio-card"
             button="true"
-            [routerLink]="['/cliente/negocios', negocio.id]"
+            [routerLink]="['/cliente/businesses', negocio.id]"
           >
             <div class="negocio-image">
               <img [src]="negocio.imagen" [alt]="negocio.nombre" />
@@ -158,7 +158,7 @@
         }
       </ion-row>
     </ion-grid>
-    } @loading {
+    } @else {
     <ion-grid>
       <ion-row>
         @for (item of [1,2,3,4]; track $index) {
@@ -195,7 +195,7 @@
       </ion-button>
     </div>
 
-    @defer (when !isLoading()) {
+    @if (!isLoading()) {
     <div class="promociones-container">
       @for (promocion of promociones(); track promocion.id) {
       <ion-card class="tiza-glass-card promocion-card" button="true">
@@ -213,7 +213,7 @@
       </ion-card>
       }
     </div>
-    } @loading {
+    } @else {
     <div class="promociones-container">
       @for (item of [1,2]; track $index) {
       <ion-card class="tiza-glass-card">

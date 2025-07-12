@@ -9,6 +9,8 @@
     @if (!isLoading()) {
     <ion-card class="tiza-glass-card perfil-card">
       <ion-card-content>
+        <!-- Modo Vista (solo lectura) -->
+        @if (!editMode()) {
         <div class="perfil-header">
           <div class="avatar">
             <ion-icon name="person-outline"></ion-icon>
@@ -19,19 +21,55 @@
           </div>
         </div>
 
-        <div class="perfil-details">
-          <div class="detail-item">
-            <ion-icon name="mail-outline"></ion-icon>
-            <span>{{ usuario().email }}</span>
-          </div>
-          <div class="detail-item">
-            <ion-icon name="call-outline"></ion-icon>
-            <span>{{ usuario().telefono }}</span>
+        <!-- Datos personales -->
+        <div class="perfil-section">
+          <h3>Datos personales</h3>
+          <div class="perfil-details">
+            <div class="detail-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <span>{{ usuario().email }}</span>
+            </div>
+            <div class="detail-item">
+              <ion-icon name="call-outline"></ion-icon>
+              <span>{{ usuario().telefono }}</span>
+            </div>
           </div>
         </div>
 
+        <!-- Dirección -->
+        <div class="perfil-section">
+          <h3>Dirección de entrega</h3>
+          <div class="perfil-details">
+            <div class="detail-item">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ usuario().direccion.calle }}</span>
+            </div>
+            <div class="detail-item">
+              <ion-icon name="business-outline"></ion-icon>
+              <span>{{ usuario().direccion.colonia }}</span>
+            </div>
+            <div class="detail-item">
+              <ion-icon name="location-outline"></ion-icon>
+              <span
+                >{{ usuario().direccion.ciudad }}, {{ usuario().direccion.estado
+                }}</span
+              >
+            </div>
+            <div class="detail-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <span>{{ usuario().direccion.codigoPostal }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones en modo vista -->
         <div class="perfil-actions">
-          <ion-button fill="outline" class="tiza-button-outline" disabled>
+          <ion-button
+            fill="outline"
+            class="tiza-button-outline"
+            (click)="enableEdit()"
+          >
+            <ion-icon name="create-outline" slot="start"></ion-icon>
             Editar Perfil
           </ion-button>
           <ion-button
@@ -43,9 +81,143 @@
             Cerrar Sesión
           </ion-button>
         </div>
+        }
+
+        <!-- Modo Edición (formulario) -->
+        @if (editMode()) {
+        <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+          <div class="perfil-header">
+            <div class="avatar">
+              <ion-icon name="person-outline"></ion-icon>
+            </div>
+            <div class="info">
+              <h2>Editar Perfil</h2>
+              <p>Actualiza tus datos personales y dirección</p>
+            </div>
+          </div>
+
+          <!-- Datos personales -->
+          <div class="perfil-section">
+            <h3>Datos personales</h3>
+            <div class="edit-form-group">
+              <ion-item lines="none" class="tiza-form-item">
+                <ion-icon name="person-outline" slot="start"></ion-icon>
+                <ion-label position="stacked">Nombre completo</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="nombre"
+                  placeholder="Ingresa tu nombre completo"
+                  [clearInput]="true"
+                ></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="tiza-form-item">
+                <ion-icon name="mail-outline" slot="start"></ion-icon>
+                <ion-label position="stacked">Email</ion-label>
+                <ion-input
+                  type="email"
+                  formControlName="email"
+                  placeholder="tu@email.com"
+                  [clearInput]="true"
+                ></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="tiza-form-item">
+                <ion-icon name="call-outline" slot="start"></ion-icon>
+                <ion-label position="stacked">Teléfono</ion-label>
+                <ion-input
+                  type="tel"
+                  formControlName="telefono"
+                  placeholder="Número de teléfono"
+                  [clearInput]="true"
+                ></ion-input>
+              </ion-item>
+            </div>
+          </div>
+
+          <!-- Dirección -->
+          <div class="perfil-section" formGroupName="direccion">
+            <h3>Dirección de entrega</h3>
+            <div class="edit-form-group">
+              <ion-item lines="none" class="tiza-form-item">
+                <ion-icon name="location-outline" slot="start"></ion-icon>
+                <ion-label position="stacked">Calle y número</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="calle"
+                  placeholder="Ej. Av. Insurgentes Sur 1234"
+                  [clearInput]="true"
+                ></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="tiza-form-item">
+                <ion-icon name="business-outline" slot="start"></ion-icon>
+                <ion-label position="stacked">Colonia</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="colonia"
+                  placeholder="Ej. Del Valle"
+                  [clearInput]="true"
+                ></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="tiza-form-item">
+                <ion-icon name="location-outline" slot="start"></ion-icon>
+                <ion-label position="stacked">Ciudad</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="ciudad"
+                  placeholder="Ej. Ciudad de México"
+                  [clearInput]="true"
+                ></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="tiza-form-item">
+                <ion-icon name="map-outline" slot="start"></ion-icon>
+                <ion-label position="stacked">Estado</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="estado"
+                  placeholder="Ej. CDMX"
+                  [clearInput]="true"
+                ></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="tiza-form-item">
+                <ion-icon name="mail-outline" slot="start"></ion-icon>
+                <ion-label position="stacked">Código postal</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="codigoPostal"
+                  placeholder="Ej. 03100"
+                  [clearInput]="true"
+                ></ion-input>
+              </ion-item>
+            </div>
+          </div>
+
+          <!-- Acciones en modo edición -->
+          <div class="perfil-actions">
+            <ion-button
+              fill="outline"
+              class="tiza-button-outline"
+              (click)="cancelEdit()"
+              type="button"
+            >
+              <ion-icon name="close-outline" slot="start"></ion-icon>
+              Cancelar
+            </ion-button>
+            <ion-button fill="solid" class="tiza-button-primary" type="submit">
+              <ion-icon name="save-outline" slot="start"></ion-icon>
+              Guardar Cambios
+            </ion-button>
+          </div>
+        </form>
+        }
       </ion-card-content>
     </ion-card>
     } @else {
+    <!-- Estado de carga -->
     <ion-card class="tiza-glass-card">
       <ion-card-content>
         <div class="perfil-header">

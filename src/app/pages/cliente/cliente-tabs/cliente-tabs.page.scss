@@ -88,8 +88,10 @@
 
 // FAB del carrito
 .tiza-fab-carrito {
-  --margin-bottom: 80px; // Espacio para el tab bar
-  --margin-end: 16px;
+  position: fixed !important;
+  bottom: 90px !important; // Posicionamiento fijo desde el bottom
+  right: 16px !important;
+  z-index: 1000;
 
   .tiza-fab-button {
     --background: var(--tiza-primary-600);
@@ -178,7 +180,7 @@
   }
 
   .tiza-fab-carrito {
-    --margin-bottom: 90px;
-    --margin-end: 24px;
+    bottom: 100px !important;
+    right: 24px !important;
   }
 }

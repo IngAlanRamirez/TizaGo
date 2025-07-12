@@ -4,6 +4,8 @@ import { AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { addIcons } from 'ionicons';
+import { refreshOutline } from 'ionicons/icons';
 
 export interface VerificationMethod {
   type: 'email' | 'sms';
@@ -55,7 +57,9 @@ export class VerifyAccountPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private alertController: AlertController,
-  ) {}
+  ) {
+    this.addIcons();
+  }
 
   ngOnInit() {
     // Obtener parámetros de la URL
@@ -240,5 +244,11 @@ export class VerifyAccountPage implements OnInit {
     return this.mode === 'recovery'
       ? 'key-outline'
       : 'shield-checkmark-outline';
+  }
+
+  private addIcons() {
+    addIcons({
+      'refresh-outline': refreshOutline,
+    });
   }
 }

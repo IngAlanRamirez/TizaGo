@@ -1,3 +1,427 @@
+// === HEADER STYLES ===
+.tiza-header {
+  --background: var(--tiza-glass-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--tiza-glass-border);
+
+  ion-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  ion-buttons {
+    ion-button {
+      --color: white;
+
+      .white-icon {
+        font-size: 1.3rem;
+        color: white;
+      }
+    }
+  }
+}
+
+// === CONTENT BACKGROUND ===
+.tiza-content {
+  --background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.05) 0%,
+    rgba(245, 158, 11, 0.05) 100%
+  );
+}
+
+// === CONTAINER ===
 .container {
   padding: 16px;
+  padding-bottom: 100px; // Space for FAB
+}
+
+// === LOADING STATE ===
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  ion-card {
+    margin: 0;
+  }
+}
+
+// === EMPTY CART STATE ===
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 400px;
+
+  .empty-icon {
+    margin-bottom: 24px;
+
+    ion-icon {
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  h2 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0 0 32px 0;
+    max-width: 300px;
+  }
+
+  .continue-button {
+    --background: var(--tiza-primary-600);
+    --color: white;
+    font-weight: 600;
+  }
+}
+
+// === CART CONTENT ===
+.cart-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// === CART HEADER ===
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--tiza-glass-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid var(--tiza-glass-border);
+
+  .items-count {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 600;
+
+    ion-icon {
+      font-size: 1.2rem;
+      color: var(--tiza-primary-600);
+    }
+  }
+
+  ion-badge {
+    --background: var(--tiza-primary-600);
+    --color: white;
+    font-weight: 600;
+  }
+}
+
+// === BUSINESS GROUP ===
+.business-group {
+  margin: 0;
+  overflow: hidden;
+
+  .business-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    .business-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      ion-icon {
+        font-size: 1.2rem;
+        color: var(--tiza-primary-600);
+      }
+
+      h3 {
+        margin: 0;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+    }
+
+    ion-badge {
+      --background: var(--tiza-primary-600);
+      --color: white;
+      font-weight: 600;
+    }
+  }
+
+  .business-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+// === CART ITEM ===
+.cart-item {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .item-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .placeholder-image {
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
+
+  .item-details {
+    .item-name {
+      margin: 0 0 4px 0;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .item-price {
+      margin: 0 0 4px 0;
+      color: var(--tiza-primary-600);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .item-subtotal {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.85rem;
+    }
+  }
+
+  .item-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+
+      .quantity-btn {
+        --color: white;
+        --size: 32px;
+        width: 32px;
+        height: 32px;
+        margin: 0;
+
+        ion-icon {
+          font-size: 1rem;
+        }
+      }
+
+      .quantity-input {
+        --color: white;
+        --background: transparent;
+        --border: none;
+        text-align: center;
+        width: 50px;
+        font-weight: 600;
+
+        input {
+          text-align: center;
+        }
+      }
+    }
+
+    .remove-btn {
+      --color: var(--ion-color-danger);
+      --size: 28px;
+      width: 28px;
+      height: 28px;
+
+      ion-icon {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// === ORDER SUMMARY ===
+.order-summary {
+  margin: 0;
+  overflow: hidden;
+
+  h3 {
+    margin: 0 0 20px 0;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .summary-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    span {
+      color: rgba(255, 255, 255, 0.8);
+
+      &.amount {
+        color: white;
+        font-weight: 600;
+      }
+    }
+
+    &.total-line {
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding-top: 12px;
+
+      span {
+        color: white;
+
+        &.amount {
+          color: var(--tiza-primary-600);
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+
+  .summary-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px 0;
+  }
+}
+
+// === ACTION BUTTONS ===
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+
+  .continue-btn {
+    --border-color: rgba(255, 255, 255, 0.3);
+    --color: white;
+    font-weight: 600;
+  }
+
+  .checkout-btn {
+    --background: var(--tiza-primary-600);
+    --color: white;
+    font-weight: 700;
+
+    &:disabled {
+      --background: rgba(255, 255, 255, 0.1);
+      --color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+// === FLOATING ACTION BUTTON ===
+ion-fab {
+  ion-fab-button {
+    --background: var(--tiza-primary-600);
+    --color: white;
+    --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      --background: var(--tiza-primary-700);
+    }
+  }
+}
+
+// === RESPONSIVE DESIGN ===
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cart-item {
+    grid-template-columns: 80px 1fr auto;
+    gap: 16px;
+
+    .item-image {
+      width: 80px;
+      height: 80px;
+    }
+
+    .item-controls {
+      flex-direction: row;
+      gap: 12px;
+    }
+  }
+
+  .action-buttons {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 800px;
+  }
 }

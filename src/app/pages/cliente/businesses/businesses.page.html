@@ -1,16 +1,272 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="tiza-header">
+    <!-- Logo de la app -->
+    <div slot="start" class="logo-container">
+      <img src="assets/icon/TizaGo.png" alt="TizaGo" class="logo-mini" />
+    </div>
+
+    <!-- Título de la página -->
     <ion-title>Negocios</ion-title>
+
+    <!-- Botón de perfil -->
+    <ion-button
+      slot="end"
+      fill="clear"
+      class="profile-button"
+      routerLink="/cliente/profile"
+    >
+      <ion-icon name="person-outline" class="white-icon"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="tiza-content">
-  <div class="container">
-    <ion-card class="tiza-glass-card">
-      <ion-card-content>
-        <h2>Página de Negocios</h2>
-        <p>Esta página se implementará en la siguiente fase.</p>
-      </ion-card-content>
-    </ion-card>
+  <!-- Refresher -->
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content>
+      <ion-icon name="refresh-outline"></ion-icon>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Barra de búsqueda -->
+  <div class="search-section">
+    <ion-searchbar
+      [value]="searchTerm()"
+      (ionInput)="onSearchInput($event)"
+      placeholder="Buscar restaurantes, comida..."
+      show-clear-button="focus"
+      class="tiza-searchbar"
+    ></ion-searchbar>
+  </div>
+
+  <!-- Filtros y ordenamiento -->
+  <div class="filters-section">
+    <div class="filters-toolbar">
+      <!-- Botón de filtros -->
+      <ion-button
+        fill="outline"
+        size="small"
+        (click)="toggleFilters()"
+        class="filter-button"
+      >
+        <ion-icon name="filter-outline" slot="start"></ion-icon>
+        Filtros @if (activeFiltersCount() > 0) {
+        <ion-chip color="primary" size="small">
+          {{ activeFiltersCount() }}
+        </ion-chip>
+        }
+      </ion-button>
+
+      <!-- Selector de ordenamiento -->
+      <ion-select
+        [value]="sortBy()"
+        (ionChange)="onSortChange($event)"
+        placeholder="Ordenar por"
+        interface="popover"
+        class="sort-select"
+      >
+        <ion-select-option value="rating">Mejor calificados</ion-select-option>
+        <ion-select-option value="delivery_time">Más rápidos</ion-select-option>
+        <ion-select-option value="delivery_fee"
+          >Envío más barato</ion-select-option
+        >
+        <ion-select-option value="distance">Más cercanos</ion-select-option>
+        <ion-select-option value="popularity">Más populares</ion-select-option>
+      </ion-select>
+    </div>
+
+    <!-- Panel de filtros expandible -->
+    @if (showFilters()) {
+    <div class="filters-panel tiza-glass-card">
+      <!-- Filtro por categorías -->
+      <div class="filter-group">
+        <h4>Categorías</h4>
+        <div class="categories-chips">
+          @for (category of categories(); track category) {
+          <ion-chip
+            [color]="selectedCategories().includes(category) ? 'primary' : 'medium'"
+            (click)="toggleCategory(category)"
+            class="category-chip"
+          >
+            <ion-label>{{ category }}</ion-label>
+            @if (selectedCategories().includes(category)) {
+            <ion-icon name="checkmark-outline"></ion-icon>
+            }
+          </ion-chip>
+          }
+        </div>
+      </div>
+
+      <!-- Filtro solo abiertos -->
+      <div class="filter-group">
+        <ion-item class="filter-item">
+          <ion-checkbox
+            [checked]="showOpenOnly()"
+            (ionChange)="toggleOpenOnly()"
+            slot="start"
+          ></ion-checkbox>
+          <ion-label>Solo negocios abiertos</ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Filtro por precio de envío -->
+      <div class="filter-group">
+        <h4>Costo de envío</h4>
+        <ion-range
+          [value]="priceRange()"
+          [min]="0"
+          [max]="100"
+          [step]="5"
+          [dualKnobs]="true"
+          [pin]="true"
+          (ionInput)="onPriceRangeChange($event)"
+          class="price-range"
+        >
+          <ion-label slot="start">$0</ion-label>
+          <ion-label slot="end">$100+</ion-label>
+        </ion-range>
+        <ion-text class="range-values">
+          ${{ priceRange().lower }} - ${{ priceRange().upper }}
+        </ion-text>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="filter-actions">
+        <ion-button
+          fill="clear"
+          size="small"
+          (click)="clearFilters()"
+          class="clear-button"
+        >
+          <ion-icon name="close-outline" slot="start"></ion-icon>
+          Limpiar
+        </ion-button>
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- Lista de negocios -->
+  <div class="businesses-section">
+    @if (isLoading()) {
+    <!-- Loading skeletons -->
+    <div class="businesses-grid">
+      @for (item of [1,2,3,4,5,6]; track $index) {
+      <ion-card class="tiza-glass-card business-card skeleton">
+        <div class="business-image">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </div>
+        <ion-card-content>
+          <ion-skeleton-text animated [style.width]="'80%'"></ion-skeleton-text>
+          <ion-skeleton-text animated [style.width]="'60%'"></ion-skeleton-text>
+          <ion-skeleton-text animated [style.width]="'40%'"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+      }
+    </div>
+    } @else if (filteredBusinesses().length === 0) {
+    <!-- Estado vacío -->
+    <div class="empty-state">
+      <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+      <h3>No se encontraron negocios</h3>
+      <p>Intenta ajustar tus filtros o buscar algo diferente</p>
+      <ion-button fill="outline" (click)="clearFilters()">
+        Limpiar filtros
+      </ion-button>
+    </div>
+    } @else {
+    <!-- Lista de negocios -->
+    <div class="businesses-grid">
+      @for (business of filteredBusinesses(); track business.id) {
+      <ion-card
+        class="tiza-glass-card business-card"
+        [routerLink]="['/cliente/businesses', business.id]"
+        button="true"
+      >
+        <!-- Imagen del negocio -->
+        <div class="business-image">
+          <img [src]="business.image" [alt]="business.name" />
+
+          <!-- Badge de estado -->
+          <div class="business-status" [class.closed]="!business.isOpen">
+            {{ business.isOpen ? 'Abierto' : 'Cerrado' }}
+          </div>
+
+          <!-- Botón de favorito -->
+          <ion-button
+            fill="clear"
+            size="small"
+            class="favorite-button"
+            (click)="toggleFavorite(business.id, $event)"
+          >
+            <ion-icon
+              [name]="business.isFavorite ? 'heart' : 'heart-outline'"
+              [color]="business.isFavorite ? 'danger' : 'medium'"
+            ></ion-icon>
+          </ion-button>
+
+          <!-- Badge de promoción -->
+          @if (business.promotion) {
+          <div class="promotion-badge" [class]="business.promotion.type">
+            {{ business.promotion.value }}
+          </div>
+          }
+        </div>
+
+        <!-- Contenido del negocio -->
+        <ion-card-content>
+          <div class="business-header">
+            <h3 class="business-name">{{ business.name }}</h3>
+            <div class="business-category">{{ business.category }}</div>
+          </div>
+
+          <p class="business-description">{{ business.description }}</p>
+
+          <!-- Información clave -->
+          <div class="business-info">
+            <div class="info-item">
+              <ion-icon name="star" class="star-icon"></ion-icon>
+              <span>{{ business.rating }}</span>
+              <span class="reviews">({{ business.reviewsCount }})</span>
+            </div>
+
+            <div class="info-item">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ business.deliveryTime }} min</span>
+            </div>
+
+            <div class="info-item">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ business.location.distance }} km</span>
+            </div>
+          </div>
+
+          <!-- Información de entrega -->
+          <div class="delivery-info">
+            <div class="delivery-fee">
+              @if (business.deliveryFee === 0) {
+              <span class="free-delivery">Envío gratis</span>
+              } @else {
+              <span>Envío ${{ business.deliveryFee }}</span>
+              }
+            </div>
+            <div class="min-order">Mínimo ${{ business.minOrder }}</div>
+          </div>
+
+          <!-- Tags -->
+          @if (business.tags && business.tags.length > 0) {
+          <div class="business-tags">
+            @for (tag of business.tags.slice(0, 3); track tag) {
+            <ion-chip size="small" color="light">
+              <ion-label>{{ tag }}</ion-label>
+            </ion-chip>
+            }
+          </div>
+          }
+        </ion-card-content>
+      </ion-card>
+      }
+    </div>
+    }
   </div>
 </ion-content>

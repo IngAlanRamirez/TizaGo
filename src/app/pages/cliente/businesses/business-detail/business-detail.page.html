@@ -1,16 +1,282 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="tiza-header">
-    <ion-title>Detalle del Negocio</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" fill="clear">
+        <ion-icon name="arrow-back-outline" class="white-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ business()?.name || 'Cargando...' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleFavorite()" fill="clear">
+        <ion-icon
+          [name]="business()?.isFavorite ? 'heart' : 'heart-outline'"
+          class="white-icon"
+          [class.favorite-active]="business()?.isFavorite"
+        >
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="tiza-content">
-  <div class="container">
-    <ion-card class="tiza-glass-card">
-      <ion-card-content>
-        <h2>Detalle del Negocio #{{ id }}</h2>
-        <p>Esta página se implementará en la siguiente fase.</p>
-      </ion-card-content>
-    </ion-card>
+  <!-- Loading skeleton -->
+  <div *ngIf="isLoading()" class="loading-container">
+    <div class="cover-skeleton">
+      <ion-skeleton-text
+        animated
+        style="width: 100%; height: 200px"
+      ></ion-skeleton-text>
+    </div>
+    <div class="content-skeleton">
+      <ion-skeleton-text
+        animated
+        style="width: 60%; height: 24px"
+      ></ion-skeleton-text>
+      <ion-skeleton-text
+        animated
+        style="width: 40%; height: 16px"
+      ></ion-skeleton-text>
+      <ion-skeleton-text
+        animated
+        style="width: 100%; height: 16px"
+      ></ion-skeleton-text>
+      <ion-skeleton-text
+        animated
+        style="width: 80%; height: 16px"
+      ></ion-skeleton-text>
+    </div>
   </div>
+
+  <!-- Business content -->
+  <div *ngIf="!isLoading() && business()" class="business-content">
+    <!-- Business header with cover image -->
+    <div class="business-header">
+      <img
+        [src]="business()?.coverImage"
+        [alt]="business()?.name"
+        class="cover-image"
+      />
+      <div class="business-info-overlay">
+        <div class="business-main-info">
+          <div class="business-avatar">
+            <img [src]="business()?.image" [alt]="business()?.name" />
+          </div>
+          <div class="business-details">
+            <h1 class="business-name">{{ business()?.name }}</h1>
+            <p class="business-category">{{ business()?.category }}</p>
+            <div class="business-stats">
+              <div class="stat">
+                <ion-icon name="star" class="rating-icon"></ion-icon>
+                <span>{{ business()?.rating }}</span>
+                <span class="text-muted">({{ business()?.reviewsCount }})</span>
+              </div>
+              <div class="stat">
+                <ion-icon name="time-outline"></ion-icon>
+                <span>{{ business()?.deliveryTime }} min</span>
+              </div>
+              <div class="stat">
+                <ion-icon name="location-outline"></ion-icon>
+                <span>{{ business()?.location?.distance }} km</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business details card -->
+    <div class="container">
+      <ion-card class="tiza-glass-card business-details-card">
+        <ion-card-content>
+          <div class="business-description">
+            <h2>Acerca de nosotros</h2>
+            <p>{{ business()?.description }}</p>
+          </div>
+
+          <div class="business-tags">
+            <ion-chip *ngFor="let tag of business()?.tags" class="tag-chip">
+              <ion-label>{{ tag }}</ion-label>
+            </ion-chip>
+          </div>
+
+          <div class="delivery-info">
+            <div class="delivery-item">
+              <ion-icon name="time-outline"></ion-icon>
+              <div>
+                <strong>Tiempo de entrega</strong>
+                <span
+                  >{{ business()?.deliveryTime }} - {{ (business()?.deliveryTime
+                  || 0) + 10 }} min</span
+                >
+              </div>
+            </div>
+            <div class="delivery-item">
+              <ion-icon name="location-outline"></ion-icon>
+              <div>
+                <strong>Costo de envío</strong>
+                <span>${{ business()?.deliveryFee }}</span>
+              </div>
+            </div>
+            <div class="delivery-item">
+              <ion-icon name="cart-outline"></ion-icon>
+              <div>
+                <strong>Pedido mínimo</strong>
+                <span>${{ business()?.minOrder }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="business-contact">
+            <ion-button
+              (click)="callBusiness()"
+              fill="outline"
+              size="small"
+              class="contact-button"
+            >
+              <ion-icon name="call-outline" slot="start"></ion-icon>
+              Llamar
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Promotion banner -->
+      <div *ngIf="business()?.promotion" class="promotion-banner">
+        <div class="promotion-content">
+          <ion-icon
+            name="checkmark-circle-outline"
+            class="promotion-icon"
+          ></ion-icon>
+          <div class="promotion-text">
+            <strong>{{ business()?.promotion?.value }} OFF</strong>
+            <span>{{ business()?.promotion?.description }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category segments -->
+      <div class="category-section">
+        <ion-segment
+          [value]="selectedCategory()"
+          (ionChange)="onCategoryChange($event.detail.value)"
+          class="category-segment"
+        >
+          <ion-segment-button
+            *ngFor="let category of categoriesWithCount()"
+            [value]="category.id"
+            class="category-segment-button"
+          >
+            <ion-label>
+              {{ category.name }}
+              <ion-badge color="primary">{{ category.count }}</ion-badge>
+            </ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+
+      <!-- Products grid -->
+      <div class="products-section">
+        <div class="products-grid">
+          <ion-card
+            *ngFor="let product of filteredProducts()"
+            class="tiza-glass-card product-card"
+            [class.unavailable]="!product.isAvailable"
+          >
+            <div class="product-image-container">
+              <img
+                [src]="product.image"
+                [alt]="product.name"
+                class="product-image"
+              />
+              <div *ngIf="product.isPopular" class="popular-badge">
+                <ion-icon name="star"></ion-icon>
+                <span>Popular</span>
+              </div>
+              <div *ngIf="!product.isAvailable" class="unavailable-overlay">
+                <span>No disponible</span>
+              </div>
+            </div>
+
+            <ion-card-content class="product-content">
+              <div class="product-info">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-description">{{ product.description }}</p>
+                <div class="product-price">
+                  <span class="price">${{ product.price }}</span>
+                </div>
+
+                <div
+                  *ngIf="product.ingredients?.length"
+                  class="product-ingredients"
+                >
+                  <small>{{ product.ingredients?.join(', ') }}</small>
+                </div>
+
+                <div
+                  *ngIf="product.allergens?.length"
+                  class="product-allergens"
+                >
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  <small>Contiene: {{ product.allergens?.join(', ') }}</small>
+                </div>
+              </div>
+
+              <div class="product-actions">
+                <div *ngIf="!isProductInCart(product.id)" class="add-to-cart">
+                  <ion-button
+                    (click)="addToCart(product)"
+                    [disabled]="!product.isAvailable || isAddingToCart()"
+                    fill="solid"
+                    size="small"
+                    class="add-button"
+                  >
+                    <ion-icon name="add-outline" slot="start"></ion-icon>
+                    Agregar
+                  </ion-button>
+                </div>
+
+                <div
+                  *ngIf="isProductInCart(product.id)"
+                  class="quantity-controls"
+                >
+                  <ion-button
+                    (click)="removeFromCart(product.id)"
+                    fill="clear"
+                    size="small"
+                    class="quantity-button"
+                  >
+                    <ion-icon name="remove-outline"></ion-icon>
+                  </ion-button>
+
+                  <span class="quantity"
+                    >{{ getProductQuantity(product.id) }}</span
+                  >
+
+                  <ion-button
+                    (click)="addToCart(product)"
+                    fill="clear"
+                    size="small"
+                    class="quantity-button"
+                  >
+                    <ion-icon name="add-outline"></ion-icon>
+                  </ion-button>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <ion-toast
+    [isOpen]="showToast()"
+    [message]="toastMessage()"
+    [duration]="3000"
+    position="top"
+    class="custom-toast"
+  >
+  </ion-toast>
 </ion-content>

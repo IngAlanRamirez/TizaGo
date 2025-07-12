@@ -1,16 +1,219 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="tiza-header">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/cliente/businesses"></ion-back-button>
+    </ion-buttons>
     <ion-title>Mi Carrito</ion-title>
+    @if (!isEmpty()) {
+    <ion-buttons slot="end">
+      <ion-button (click)="clearCart()" fill="clear">
+        <ion-icon name="trash-outline" class="white-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    }
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="tiza-content">
   <div class="container">
-    <ion-card class="tiza-glass-card">
-      <ion-card-content>
-        <h2>Carrito de Compras</h2>
-        <p>Esta página se implementará en la siguiente fase.</p>
-      </ion-card-content>
-    </ion-card>
+    <!-- Loading state -->
+    @if (isLoading()) {
+    <div class="loading-container">
+      @for (i of [1,2,3]; track $index) {
+      <ion-card class="tiza-glass-card">
+        <ion-card-content>
+          <ion-skeleton-text animated [style.width]="'80%'"></ion-skeleton-text>
+          <ion-skeleton-text animated [style.width]="'60%'"></ion-skeleton-text>
+          <ion-skeleton-text animated [style.width]="'40%'"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+      }
+    </div>
+    }
+
+    <!-- Empty cart state -->
+    @else if (isEmpty()) {
+    <div class="empty-cart">
+      <div class="empty-icon">
+        <ion-icon name="cart-outline"></ion-icon>
+      </div>
+      <h2>Tu carrito está vacío</h2>
+      <p>Explora nuestros negocios y encuentra algo delicioso para ti</p>
+      <ion-button
+        (click)="continueShopping()"
+        fill="solid"
+        class="continue-button"
+      >
+        <ion-icon name="storefront" slot="start"></ion-icon>
+        Explorar negocios
+      </ion-button>
+    </div>
+    }
+
+    <!-- Cart with items -->
+    @else {
+    <div class="cart-content">
+      <!-- Cart header -->
+      <div class="cart-header">
+        <div class="items-count">
+          <ion-icon name="bag-check-outline"></ion-icon>
+          <span
+            >{{ itemsCount() }} {{ itemsCount() === 1 ? 'producto' : 'productos'
+            }}</span
+          >
+        </div>
+        <ion-badge color="primary"
+          >{{ itemsByBusiness().length }} {{ itemsByBusiness().length === 1 ?
+          'negocio' : 'negocios' }}</ion-badge
+        >
+      </div>
+
+      <!-- Items grouped by business -->
+      @for (business of itemsByBusiness(); track business.businessId) {
+      <ion-card class="tiza-glass-card business-group">
+        <ion-card-content>
+          <!-- Business header -->
+          <div
+            class="business-header"
+            (click)="goToBusiness(business.businessId)"
+          >
+            <div class="business-info">
+              <ion-icon name="storefront"></ion-icon>
+              <h3>{{ business.businessName }}</h3>
+            </div>
+            <ion-badge color="primary"
+              >{{ formatPrice(business.subtotal) }}</ion-badge
+            >
+          </div>
+
+          <!-- Business items -->
+          <div class="business-items">
+            @for (item of business.items; track item.id) {
+            <div class="cart-item">
+              <div class="item-image">
+                @if (item.imagen) {
+                <img [src]="item.imagen" [alt]="item.nombre" />
+                } @else {
+                <div class="placeholder-image">
+                  <ion-icon name="storefront"></ion-icon>
+                </div>
+                }
+              </div>
+
+              <div class="item-details">
+                <h4 class="item-name">{{ item.nombre }}</h4>
+                <p class="item-price">{{ formatPrice(item.precio) }}</p>
+                <p class="item-subtotal">
+                  Subtotal: {{ formatPrice(item.subtotal) }}
+                </p>
+              </div>
+
+              <div class="item-controls">
+                <div class="quantity-controls">
+                  <ion-button
+                    (click)="decreaseQuantity(item)"
+                    fill="clear"
+                    size="small"
+                    class="quantity-btn"
+                  >
+                    <ion-icon name="remove-outline"></ion-icon>
+                  </ion-button>
+
+                  <ion-input
+                    type="number"
+                    [value]="item.cantidad"
+                    (ionBlur)="updateQuantity(item, $event)"
+                    min="1"
+                    class="quantity-input"
+                  ></ion-input>
+
+                  <ion-button
+                    (click)="increaseQuantity(item)"
+                    fill="clear"
+                    size="small"
+                    class="quantity-btn"
+                  >
+                    <ion-icon name="add-outline"></ion-icon>
+                  </ion-button>
+                </div>
+
+                <ion-button
+                  (click)="removeItem(item)"
+                  fill="clear"
+                  color="danger"
+                  size="small"
+                  class="remove-btn"
+                >
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+            }
+          </div>
+        </ion-card-content>
+      </ion-card>
+      }
+
+      <!-- Order summary -->
+      <ion-card class="tiza-glass-card order-summary">
+        <ion-card-content>
+          <h3>Resumen del pedido</h3>
+
+          <div class="summary-line">
+            <span
+              >Subtotal ({{ itemsCount() }} {{ itemsCount() === 1 ? 'producto' :
+              'productos' }})</span
+            >
+            <span class="amount">{{ formatPrice(total()) }}</span>
+          </div>
+
+          <div class="summary-line">
+            <span
+              >Costo de envío ({{ itemsByBusiness().length }} {{
+              itemsByBusiness().length === 1 ? 'negocio' : 'negocios' }})</span
+            >
+            <span class="amount">{{ formatPrice(deliveryFee()) }}</span>
+          </div>
+
+          <div class="summary-line">
+            <span>Tarifa de servicio (5%)</span>
+            <span class="amount">{{ formatPrice(serviceFee()) }}</span>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-line total-line">
+            <span>Total</span>
+            <span class="amount">{{ formatPrice(finalTotal()) }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Action buttons -->
+      <div class="action-buttons">
+        <ion-button
+          (click)="continueShopping()"
+          fill="outline"
+          class="continue-btn"
+        >
+          <ion-icon name="storefront" slot="start"></ion-icon>
+          Seguir comprando
+        </ion-button>
+
+        <ion-button
+          (click)="proceedToCheckout()"
+          fill="solid"
+          class="checkout-btn"
+          [disabled]="isEmpty() || isProcessingCheckout()"
+        >
+          @if (isProcessingCheckout()) {
+          <ion-icon name="hourglass-outline" slot="start"></ion-icon>
+          Procesando... } @else {
+          <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+          Proceder al pago }
+        </ion-button>
+      </div>
+    </div>
+    }
   </div>
 </ion-content>

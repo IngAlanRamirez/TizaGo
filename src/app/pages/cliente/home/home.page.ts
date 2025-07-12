@@ -24,6 +24,12 @@ import {
   trendingUpOutline,
   chevronForwardOutline,
   refreshOutline,
+  star,
+  timeOutline,
+  cartOutline,
+  receiptOutline,
+  heart,
+  heartOutline,
 } from 'ionicons/icons';
 
 // Services
@@ -250,6 +256,12 @@ export class HomePage implements OnInit {
       'trending-up-outline': trendingUpOutline,
       'chevron-forward-outline': chevronForwardOutline,
       'refresh-outline': refreshOutline,
+      star: star,
+      'time-outline': timeOutline,
+      'cart-outline': cartOutline,
+      'receipt-outline': receiptOutline,
+      heart: heart,
+      'heart-outline': heartOutline,
     });
   }
 }

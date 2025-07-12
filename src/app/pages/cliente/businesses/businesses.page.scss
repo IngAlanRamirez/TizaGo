@@ -1,3 +1,567 @@
+// === HEADER STYLES ===
+.tiza-header {
+  --background: var(--tiza-glass-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--tiza-glass-border);
+
+  ion-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 16px;
+    padding: 8px 0;
+
+    .logo-mini {
+      width: 42px;
+      height: 32px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6))
+        drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      transition: all 0.4s ease;
+      animation: logoFloat 3s ease-in-out infinite;
+
+      &:hover {
+        transform: scale(1.1) rotate(5deg);
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8))
+          drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+      }
+    }
+  }
+
+  @keyframes logoFloat {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  .profile-button {
+    --color: white;
+    position: relative;
+
+    .white-icon {
+      font-size: 1.5rem;
+      color: white;
+    }
+  }
+}
+
+// === CONTAINER ===
 .container {
   padding: 16px;
+}
+
+// Estilos para el catálogo de negocios
+.tiza-content {
+  --background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.05) 0%,
+    rgba(245, 158, 11, 0.05) 100%
+  );
+
+  ion-refresher {
+    ion-icon {
+      color: var(--tiza-primary-600);
+    }
+  }
+}
+
+// Sección de búsqueda
+.search-section {
+  padding: 16px;
+  background: var(--tiza-glass-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--tiza-glass-border);
+
+  .tiza-searchbar {
+    --background: rgba(255, 255, 255, 0.1);
+    --border-radius: 12px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --color: white;
+    --placeholder-color: rgba(255, 255, 255, 0.7);
+    --icon-color: var(--tiza-primary-600);
+    --clear-button-color: rgba(255, 255, 255, 0.7);
+
+    ion-searchbar {
+      padding: 0;
+    }
+  }
+}
+
+// Sección de filtros
+.filters-section {
+  background: var(--tiza-glass-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--tiza-glass-border);
+
+  .filters-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 12px;
+
+    .filter-button {
+      --color: white;
+      --border-color: rgba(255, 255, 255, 0.3);
+      --background: rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+
+      ion-chip {
+        margin-left: 8px;
+        --background: var(--tiza-primary-600);
+        --color: white;
+        height: 20px;
+        min-width: 20px;
+        font-size: 0.75rem;
+      }
+    }
+
+    .sort-select {
+      --color: white;
+      --placeholder-color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      min-width: 140px;
+    }
+  }
+
+  .filters-panel {
+    margin: 0 16px 16px 16px;
+    padding: 20px;
+    animation: slideDown 0.3s ease;
+
+    .filter-group {
+      margin-bottom: 24px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      h4 {
+        margin: 0 0 12px 0;
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .categories-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        .category-chip {
+          --background: rgba(255, 255, 255, 0.1);
+          --color: white;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &[color="primary"] {
+            --background: var(--tiza-primary-600);
+            --color: white;
+          }
+
+          ion-icon {
+            margin-left: 4px;
+            font-size: 0.9rem;
+          }
+        }
+      }
+
+      .filter-item {
+        --background: transparent;
+        --color: white;
+        --padding-start: 0;
+        --padding-end: 0;
+
+        ion-checkbox {
+          --color: var(--tiza-primary-600);
+          --color-checked: var(--tiza-primary-600);
+          --border-color: rgba(255, 255, 255, 0.5);
+          --border-color-checked: var(--tiza-primary-600);
+          margin-right: 12px;
+        }
+      }
+
+      .price-range {
+        --bar-background: rgba(255, 255, 255, 0.3);
+        --bar-background-active: var(--tiza-primary-600);
+        --knob-background: var(--tiza-primary-600);
+        --pin-background: var(--tiza-primary-600);
+        --pin-color: white;
+        margin: 16px 0;
+
+        ion-label {
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 0.85rem;
+        }
+      }
+
+      .range-values {
+        display: block;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        margin-top: 8px;
+      }
+    }
+
+    .filter-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+      .clear-button {
+        --color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+// Sección de negocios
+.businesses-section {
+  padding: 16px;
+
+  .businesses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .business-card {
+    margin: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    &.skeleton {
+      .business-image {
+        height: 180px;
+
+        ion-skeleton-text {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+    .business-image {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
+
+      .business-status {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--tiza-success-600);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        &.closed {
+          background: var(--tiza-error-600);
+        }
+      }
+
+      .favorite-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        --background: rgba(255, 255, 255, 0.9);
+        --border-radius: 2rem;
+        --border: none;
+        --box-shadow: none;
+        --outline: none;
+        --ripple-color: transparent;
+        --padding-start: 0;
+        --padding-end: 0;
+        --padding-top: 0;
+        --padding-bottom: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 2rem;
+        backdrop-filter: blur(10px);
+        border: none !important;
+        outline: none !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+
+        &:focus,
+        &:hover,
+        &:active {
+          outline: none !important;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+          --background: rgba(255, 255, 255, 0.95);
+        }
+
+        &::before,
+        &::after {
+          display: none !important;
+        }
+
+        .button-native {
+          border: none !important;
+          outline: none !important;
+          box-shadow: none !important;
+          background: transparent !important;
+        }
+
+        ion-icon {
+          font-size: 1.2rem;
+        }
+      }
+
+      .promotion-badge {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        padding: 6px 12px;
+        border-radius: 16px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        &.discount {
+          background: var(--tiza-secondary-600);
+          color: white;
+        }
+
+        &.free_delivery {
+          background: var(--tiza-success-600);
+          color: white;
+        }
+
+        &.special {
+          background: var(--tiza-warning-600);
+          color: var(--tiza-gray-900);
+        }
+      }
+    }
+
+    ion-card-content {
+      padding: 16px;
+
+      .business-header {
+        margin-bottom: 8px;
+
+        .business-name {
+          margin: 0 0 4px 0;
+          color: white;
+          font-size: 1.1rem;
+          font-weight: 700;
+          line-height: 1.3;
+        }
+
+        .business-category {
+          color: var(--tiza-primary-600);
+          font-size: 0.85rem;
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+
+      .business-description {
+        margin: 0 0 16px 0;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .business-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 12px;
+
+        .info-item {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 0.85rem;
+
+          ion-icon {
+            font-size: 1rem;
+            color: var(--tiza-primary-600);
+
+            &.star-icon {
+              color: var(--tiza-warning-500);
+            }
+          }
+
+          .reviews {
+            color: rgba(255, 255, 255, 0.6);
+            margin-left: 2px;
+          }
+        }
+      }
+
+      .delivery-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 8px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.85rem;
+
+        .delivery-fee {
+          .free-delivery {
+            color: var(--tiza-success-500);
+            font-weight: 600;
+          }
+        }
+
+        .min-order {
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+
+      .business-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+
+        ion-chip {
+          --background: rgba(255, 255, 255, 0.1);
+          --color: rgba(255, 255, 255, 0.8);
+          font-size: 0.75rem;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+  // Estado vacío
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.8);
+
+    .empty-icon {
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.3);
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      margin: 0 0 8px 0;
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 24px 0;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    ion-button {
+      --color: var(--tiza-primary-600);
+      --border-color: var(--tiza-primary-600);
+    }
+  }
+}
+
+// Animaciones
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .filters-section {
+    .filters-toolbar {
+      flex-direction: column;
+      gap: 8px;
+
+      .filter-button,
+      .sort-select {
+        width: 100%;
+      }
+    }
+  }
+
+  .businesses-section {
+    padding: 12px;
+
+    .businesses-grid {
+      gap: 12px;
+    }
+
+    .business-card {
+      .business-info {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+
+      .delivery-info {
+        flex-direction: column;
+        gap: 4px;
+        align-items: flex-start;
+      }
+    }
+  }
+}
+
+// Estados de carga
+.skeleton {
+  pointer-events: none;
+
+  ion-skeleton-text {
+    --background: rgba(255, 255, 255, 0.1);
+    --background-rgb: 255, 255, 255;
+  }
 }
